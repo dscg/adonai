@@ -41,7 +41,10 @@ body {
             transform: translate(-50%, -50%) scale(1);
   }
 }
-.window-popup{
+.window-popup, .message-popup{
+	display: none;
+	top: 0px;
+	left: 0px;
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -50,7 +53,7 @@ body {
 	margin: 0;
 	background-color: rgba(0, 0, 0, 0.2);
 }
-.window {
+.window, .message {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -76,7 +79,7 @@ body {
   justify-content: center;
   align-items: space-around;
 }
-.window-header {
+.window-header, .message-header {
   text-align: center;
   font-size: 1.1rem;
   margin: 0px 0px 10px 0px;
@@ -85,14 +88,14 @@ body {
   height: 30px;
   border-bottom:2px solid lightgray;
 }
-.window-title {
+.window-title, .message-title {
   width: 465px;
   float: left;
   font-weight:bold;
   line-Height: 30px;
 
 }
-.window-title-icon {
+.window-title-icon, .message-title-icon {
 	padding: 0px;
 	margin: 0px;
 	width: 30px;
@@ -100,7 +103,8 @@ body {
 	font-size:26px;
 	float: right;
 	color: white;
-	background-color:red;
+	/*fondo rojo*/
+	background-color: rgba(217, 27, 27, 0.8);
 	border-top-right-radius: 10px;
 	cursor: pointer;
 }
@@ -109,7 +113,7 @@ body {
 .height3row {height:180px;}
 .height4row {height:240px;}
 .height5row {height:300px;}
-.window-content {
+.window-content, .message-content {
   text-align: center;
   font-size: 1rem;
 }
@@ -119,6 +123,7 @@ body {
 .inputtext {
     font-size: 1em;
     color: white;
+    /*color plomo*/
     background-color: rgba(111, 122, 133, 0.8);
     display: inline-block;
 	cursor: pointer;
@@ -137,6 +142,7 @@ body {
     font-size: 1em;
     font-weight: 200;
     color: white;
+    /*color plomo*/
     background-color: rgba(111, 122, 133, 0.8);
     display: inline-block;
 	cursor: pointer;
@@ -149,14 +155,14 @@ body {
     background-color: rgba(44, 124, 222, 0.8);
 }
 */
-.window-button {
+.window-buttons, .message-buttons {
 	width: 500px;
 	height: 30px;
 }
-.window-button {
+.window-button, .message-button {
   background: transparent;
   border: none;
-  color: #1678E5;
+	color: rgba(40, 140, 240, 1);
   height: 30px;
   font-size: 1rem;
   width: 50%;
@@ -164,23 +170,23 @@ body {
   bottom: 0;
   cursor: pointer;
 }
-.window-button:nth-of-type(1) {
+.window-button:first-child, .message-button:first-child{
   border-top: 1px solid #B4B4B4;
   border-right: 1px solid #B4B4B4;
   left: 0;
   border-radius: 0 0 0 10px;
 }
-.window-button:nth-of-type(2) {
+.window-button:last-child, .message-button:last-child{
   border-top: 1px solid #B4B4B4;
   right: 0;
   border-radius: 0 0 10px 0;
 }
-.window-button:focus,
-.window-button:hover {
+.window-button:focus, .window-button:hover,
+.message-button:focus, .message-button:hover {
   font-weight: bold;
   background: #EFEFEF;
 }
-.window-button:active {
+.window-button:active, .message-button:active {
   background: #D6D6D6;
 }
 
@@ -315,12 +321,13 @@ section{
 	justify-content: space-around;
 }
 .acction-setting .fa-trash-alt{
-	color: red;
+	color: rgba(217, 27, 27, 0.8);
 	cursor: pointer;
 	width: 20px;
 }
 .acction-setting .fa-pencil-alt{
-	color: blue;
+	/*color azul celeste*/
+	color: rgba(40, 140, 240, 1);
 	cursor: pointer;
 	width: 20px;
 }

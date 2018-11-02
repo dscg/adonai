@@ -29,3 +29,10 @@
 		Require all granted
 	</Directory>
 
+--> habilitar upload file sizes en /etc/php5/apache2/php.ini
+	cambiar las siguientes lineas (donde 600 esta en seg.):
+	memory_limit = 1024M
+	post_max_size = 1000M
+	upload_max_filesize = 1024M
+	max_execution_time = 600
+
