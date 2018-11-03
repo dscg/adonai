@@ -12,9 +12,16 @@ class Admin extends CI_Controller {
 		if($this->session->userdata('perfil') == FALSE || $this->session->userdata('perfil') != 'admin'){
 			redirect(base_url().'login');
 		}
-		$data['titulo'] = 'Bienvenido Administrador';
-		$this->load->view('admin_view',$data);
+		$this->load->view('admin_view');
 	}
+
+    function validarSession() {
+		if($this->session->userdata('perfil') == FALSE || $this->session->userdata('perfil') != 'admin'){
+			redirect(base_url().'login');
+		} else {
+			return true;
+		}
+    }
 
      // VIDEO
     public function listaVideo(){
@@ -22,10 +29,6 @@ class Admin extends CI_Controller {
         $this->load->view('admin_video_view', $data);
 //        $this->load->view('admin_video_view');
     }
-    public function insertarVideo(){
-        $this->load->view('insertar_video_view');
-    }
-
     public function eliminarVideo($id){
         if ($id == NULL OR !is_numeric($id)){
             echo json_encode('error');
@@ -35,7 +38,6 @@ class Admin extends CI_Controller {
 		echo json_encode('success');
 		return;
     }
-
 	public function subirVideo(){
 		if (isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') {
 			unset($config);
@@ -70,35 +72,10 @@ class Admin extends CI_Controller {
 		}
 
 	}
-
 /*
- 
-    if (isset($_FILES['video']['name']) && $_FILES['video']['name'] != '') {
-        unset($config);
-        $date = date("ymd");
-        $configVideo['upload_path'] = './video';
-        $configVideo['max_size'] = '60000';
-        $configVideo['allowed_types'] = 'avi|flv|wmv|mp3|mp4';
-        $configVideo['overwrite'] = FALSE;
-        $configVideo['remove_spaces'] = TRUE;
-        $video_name = $date.$_FILES['video']['name'];
-        $configVideo['file_name'] = $video_name;
-        $this->load->library('upload', $configVideo);
-        $this->upload->initialize($configVideo);
-        if(!$this->upload->do_upload('video')) {
-            echo $this->upload->display_errors();
-        }else{
-            $videoDetails = $this->upload->data();
-            $data['video_name']= $configVideo['file_name'];
-            $data['video_detail'] = $videoDetails;
-            $this->load->view('movie/show', $data);
-        }
-        
-    }else{
-        echo "Please select a file";
+    public function insertarVideo(){
+        $this->load->view('insertar_video_view');
     }
-
-*/
     public function crearVideo(){
         $dataArchivo['titulo'] = $this->input->post('nombre');
         $dataArchivo['ruta'] = $this->input->post('fecha');
@@ -116,6 +93,83 @@ class Admin extends CI_Controller {
         $this->pantalla_model->editarConfiguracion($id, $data);
         redirect(base_url().'index.php/pantalla/listaConfiguracion?update=true');
     }
+*/
 
+/*
+    public function insertarPersonal(){
+        if ($this->validarSession()) {
+            $data['estudiantes'] = $this->usuario_model->listarEstudiante();
+            $this->load->view('insertar_docente_blog_est_view', $data);
+        }
+    }
+    public function editarPersonal($id){
+        if ($this->validarSession()) {
+            $data['blog_estudiante'] = $this->usuario_model->seleccionarBlogEstudiante($id)[0];
+            $this->load->view('editar_docente_blog_est_view', $data);
+        }
+    }
+*/
+    //PERSONAL
+    public function listaPersonal(){
+        if ($this->validarSession()) {
+            $data['personal'] = $this->admin_model->listarPersonal();
+            $this->load->view('admin_personal_view', $data);
+        }
+    }
+    public function seleccionarPersonal(){
+        if ($this->validarSession()) {
+            $id_personal = $this->input->post('id_personal');
+            $data = $this->usuario_model->seleccionarPersonal($id_personal);
+            header('Content-Type: application/json');
+            echo json_encode($data);
+        }
+    }
+    public function crearPersonal(){
+        if ($this->validarSession()) {
+            $data['nombre'] = $this->input->post('nombre');
+            $data['ap_pat'] = $this->input->post('ap_pat');
+            $data['ap_mat'] = $this->input->post('ap_mat');
+            $data['genero'] = $this->input->post('genero');
+            $data['email'] = $this->input->post('email');
+            $data['telefono'] = $this->input->post('telefono');
+            $data['celular'] = $this->input->post('celular');
+            $data['direccion'] = $this->input->post('direccion');
+            $data['ci'] = $this->input->post('ci');
+            $data['expedido'] = $this->input->post('expedido');
+            $data['fecha_nacimiento'] = $this->input->post('fecha_nacimiento');
+            $data['fecha_inicio'] = date('fecha_inicio');
+            //$data['fecha_inicio'] = date('Y-m-d');
+            $this->admin_model->crearPersonal($data);
+            echo json_encode(true);
+        }
+    }
+    public function actualizarPersonal($id){
+        if ($this->validarSession()) {
+            $data['id_personal'] = $this->input->post('id_personal');
+            $data['nombre'] = $this->input->post('nombre');
+            $data['ap_pat'] = $this->input->post('ap_pat');
+            $data['ap_mat'] = $this->input->post('ap_mat');
+            $data['genero'] = $this->input->post('genero');
+            $data['email'] = $this->input->post('email');
+            $data['telefono'] = $this->input->post('telefono');
+            $data['celular'] = $this->input->post('celular');
+            $data['direccion'] = $this->input->post('direccion');
+            $data['ci'] = $this->input->post('ci');
+            $data['expedido'] = $this->input->post('expedido');
+            $data['fecha_nacimiento'] = $this->input->post('fecha_nacimiento');
+            $data['fecha_inicio'] = date('fecha_inicio');
+            $this->admin_model->editarPersonal($id, $data);
+            echo json_encode(true);
+        }
+    }
+    public function eliminarPersonal($id){
+        if ($id == NULL OR !is_numeric($id)){
+            echo json_encode('error');
+            return;
+        }
+        $this->admin_model->eliminarPersonal($id);
+		echo json_encode('success');
+		return;
+    }
 }
 ?>

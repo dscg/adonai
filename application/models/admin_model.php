@@ -40,32 +40,32 @@ class Admin_model extends CI_Model {
         // }
 	}
 
-	//PLAN
-	public function listarPlan(){
+	//PERSONAL
+	public function listarPersonal(){
 		$this->db->select('*');
-		$this->db->from('plan');
-		$this->db->order_by('id_plan desc');
+		$this->db->from('personal');
+		$this->db->order_by('id_personal desc');
 		return $this->db->get()->result();
 	}
-	public function seleccionarPlan($id){
+	public function seleccionarPersonal($id){
 		$this->db->select('*');
-		$this->db->from('plan');
-		$this->db->where("id_plan = ".$id);
-		$this->db->order_by('id_plan asc');
+		$this->db->from('personal');
+		$this->db->where("id_personal = ".$id);
+		$this->db->order_by('id_personal asc');
 		return $this->db->get()->result();
 	}
-    public function crearPlan($data){
-        $res = $this->db->insert('plan', $data);
+    public function crearPersonal($data){
+        $res = $this->db->insert('personal', $data);
 		return $this->db->insert_id();
     }
-    public function editarPlan($id, $data){
-		$this->db->where('id_plan',$id);
-		$this->db->update('plan',$data);
+    public function editarPersonal($id, $data){
+		$this->db->where('id_personal',$id);
+		$this->db->update('personal',$data);
     }
-	public function eliminarPlan($id){
+	public function eliminarPersonal($id){
 		$data = 'success';
-		$this->db->where('id_plan',$id);
-		$this->db->delete('plan');
+		$this->db->where('id_personal',$id);
+		$this->db->delete('personal');
 		if($data['error'] = $this->db->_error_message());
 		return $data;
 	}
