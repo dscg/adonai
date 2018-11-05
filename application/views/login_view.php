@@ -78,6 +78,8 @@
 			<?php
 			}
 			?>
+			<br><br>
+			<a href="<?=base_url()?>pantalla" target="_blank" style="right:0px;float:right;color:white;font-weight:bold;">Ver pantalla</a>
         </div>
     </div>
 	<!---728x90--->

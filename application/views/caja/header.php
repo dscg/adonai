@@ -43,7 +43,7 @@
 			<article><img src="<?=base_url()?>img/caja/debit-card.png"/><span>Tickets Cobrados</span></article>
 		</article>
 	</footer>
-	<script type="text/javascript" src="<?=base_url()?>js/jquery1.5.2.min.js"></script>
+	<script src="<?=base_url()?>js/jquery-1.12.4.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			var height = $(window).height()-120;

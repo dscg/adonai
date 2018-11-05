@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Videos</title>
+	<title class="title-page">Adonai</title>
 	<link rel="stylesheet" type="text/css" href="<?=base_url()?>css/admin.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="<?=base_url()?>css/fontawesome.min.css" media="screen" />
 <!--
@@ -40,6 +40,7 @@
 		}
 		var base_url='<?=base_url()?>';
 		function video(){
+			$('.title-page').html('Videos');
 			$.ajax({
 				url: '<?=base_url()?>admin/listaVideo',
 				type: 'post',
@@ -55,6 +56,7 @@
 			});
 		}
 		function personal(){
+			$('.title-page').html('Personal');
 			$.ajax({
 				url: '<?=base_url()?>admin/listaPersonal',
 				type: 'post',

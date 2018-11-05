@@ -48,7 +48,17 @@ label{
             transform: translate(-50%, -50%) scale(1);
   }
 }
-.window-popup, .message-popup{
+.height1row {height:60px;}
+.height2row {height:120px;}
+.height3row {height:180px;}
+.height4row {height:240px;}
+.height5row {height:300px;}
+.scrollableY {overflow-y: scroll;}
+.width1colmn{width:78%;}
+.width2colmn{width:33%;}
+.width2longcolmn{width:42%;}
+.width3colmn{width:25%;}
+.window-popup, .message-view-popup, .message-popup{
 	display: none;
 	top: 0px;
 	left: 0px;
@@ -60,7 +70,7 @@ label{
 	margin: 0;
 	background-color: rgba(0, 0, 0, 0.2);
 }
-.window, .message {
+.window, .message-view, .message{
   position: absolute;
   top: 50%;
   left: 50%;
@@ -86,7 +96,7 @@ label{
   justify-content: center;
   align-items: space-around;
 }
-.window-header, .message-header {
+.window-header, .message-view-header, .message-header {
   text-align: center;
   font-size: 1.1rem;
   margin: 0px 0px 10px 0px;
@@ -95,14 +105,14 @@ label{
   height: 30px;
   border-bottom:2px solid lightgray;
 }
-.window-title, .message-title {
+.window-title, .message-view-title, .message-title {
   width: 465px;
   float: left;
   font-weight:bold;
   line-Height: 30px;
 
 }
-.window-title-icon, .message-title-icon {
+.window-title-icon, .message-view-title-icon, .message-title-icon {
 	padding: 0px;
 	margin: 0px;
 	width: 30px;
@@ -115,32 +125,15 @@ label{
 	border-top-right-radius: 10px;
 	cursor: pointer;
 }
-.window-content, .message-content {
+.window-content, .message-content, .message-view-content {
   text-align: center;
   font-size: 1rem;
 }
-.height1row {height:60px;}
-.height2row {height:120px;}
-.height3row {height:180px;}
-.height4row {height:240px;}
-.height5row {height:300px;}
-.scrollableY {
-	overflow-y: scroll;
-}
-.width1colmn{
-	width:78%;
-}
-.width2colmn{
-	width:33%;
-}
-.width3colmn{
-	width:25%;
-}
-.window-buttons, .message-buttons {
+.window-buttons, .message-view-buttons, .message-buttons {
 	width: 500px;
 	height: 30px;
 }
-.window-button, .message-button {
+.window-button, .message-view-button, .message-button {
 	background: transparent;
 	border: none;
 	color: rgba(40, 140, 240, 1);
@@ -151,26 +144,46 @@ label{
 	bottom: 0;
 	cursor: pointer;
 }
-.window-button:first-child, .message-button:first-child{
+.window-button:first-child, .message-view-button:first-child, .message-button:first-child{
 	border-top: 1px solid #B4B4B4;
 	border-right: 1px solid #B4B4B4;
 	left: 0;
 	border-radius: 0 0 0 10px;
 }
-.window-button:last-child, .message-button:last-child{
+.window-button:last-child, .message-view-button:last-child, .message-button:last-child{
 	border-top: 1px solid #B4B4B4;
 	right: 0;
 	border-radius: 0 0 10px 0;
 }
 .window-button:focus, .window-button:hover,
+.message-view-button:focus, .message-view-button:hover, 
 .message-button:focus, .message-button:hover {
 	font-weight: bold;
 	background: #EFEFEF;
 }
-.window-button:active, .message-button:active {
+.window-button:active, .message-view-button:active, .message-button:active {
 	background: #D6D6D6;
 }
+.infolabeltext {
+	vertical-align: top;
+	text-align: start;
+    font-size: 14px;
+    color: black;
+    display: inline-block;
+	padding: 0px 3px;
+	font-weight: normal;
+}
+.infolabel {
+	vertical-align: top;
+	text-align: end;
+    font-size: 14px;
+    color: dimgrey;
+    display: inline-block;
+	padding: 0px 3px;
+	font-weight: bold;
+}
 .inputlabel {
+	vertical-align: top;
 	text-align: start;
     font-size: 14px;
     color: gray;

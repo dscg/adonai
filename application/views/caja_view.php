@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 	<html lang="es">
 	<head>
+		<title class="title-page">Adonai</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="<?=base_url()?>css/960.css" media="screen" />
-		 <link rel="stylesheet" type="text/css" href="<?=base_url()?>css/text.css" media="screen" />
-		 <link rel="stylesheet" type="text/css" href="<?=base_url()?>css/reset.css" media="screen" />
-		 <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+		<link rel="stylesheet" type="text/css" href="<?=base_url()?>css/fontawesome.min.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="<?=base_url()?>css/text.css" media="screen" />
+		<link rel="stylesheet" type="text/css" href="<?=base_url()?>css/reset.css" media="screen" />
 	</head>
 	<body>
 		<div class="container_12">

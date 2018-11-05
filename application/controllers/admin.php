@@ -98,7 +98,7 @@ class Admin extends CI_Controller {
 /*
     public function insertarPersonal(){
         if ($this->validarSession()) {
-            $data['estudiantes'] = $this->usuario_model->listarEstudiante();
+            $data['estudiantes'] = $this->amsdmams_model->listarEstudiante();
             $this->load->view('insertar_docente_blog_est_view', $data);
         }
     }
@@ -119,7 +119,7 @@ class Admin extends CI_Controller {
     public function seleccionarPersonal(){
         if ($this->validarSession()) {
             $id_personal = $this->input->post('id_personal');
-            $data = $this->usuario_model->seleccionarPersonal($id_personal);
+            $data = $this->admin_model->seleccionarPersonal($id_personal);
             header('Content-Type: application/json');
             echo json_encode($data);
         }
@@ -137,7 +137,7 @@ class Admin extends CI_Controller {
             $data['ci'] = $this->input->post('ci');
             $data['expedido'] = $this->input->post('expedido');
             $data['fecha_nacimiento'] = $this->input->post('fecha_nacimiento');
-            $data['fecha_inicio'] = date('fecha_inicio');
+            $data['fecha_inicio'] = $this->input->post('fecha_inicio');
             //$data['fecha_inicio'] = date('Y-m-d');
             $this->admin_model->crearPersonal($data);
             echo json_encode(true);
@@ -145,7 +145,7 @@ class Admin extends CI_Controller {
     }
     public function actualizarPersonal($id){
         if ($this->validarSession()) {
-            $data['id_personal'] = $this->input->post('id_personal');
+            $data['id_personal'] = $id;
             $data['nombre'] = $this->input->post('nombre');
             $data['ap_pat'] = $this->input->post('ap_pat');
             $data['ap_mat'] = $this->input->post('ap_mat');
@@ -157,7 +157,7 @@ class Admin extends CI_Controller {
             $data['ci'] = $this->input->post('ci');
             $data['expedido'] = $this->input->post('expedido');
             $data['fecha_nacimiento'] = $this->input->post('fecha_nacimiento');
-            $data['fecha_inicio'] = date('fecha_inicio');
+            $data['fecha_inicio'] = $this->input->post('fecha_inicio');
             $this->admin_model->editarPersonal($id, $data);
             echo json_encode(true);
         }

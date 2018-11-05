@@ -1,6 +1,16 @@
+<div class="message-view-popup">
+	<div class="message-view">
+		<h1 class="message-view-header"><span class="message-view-title">Vista Informaci&oacute;n</span><i class="fas fa-times message-view-title-icon" onClick="cerrar_info_personal()"></i></h1>
+		<div class="message-view-content height4row scrollableY"></div>
+		<div class="message-view-buttons">
+			<button class="message-view-button" id="msgv-btn-salir" onClick="cerrar_info_personal()">Salir</button>
+			<button class="message-view-button" id="msgv-btn-guardar"onClick="cerrar_info_personal()" autofocus>Cerrar</button>
+		</div>
+	</div>
+</div>
 <div class="message-popup">
 	<div class="message">
-		<h1 class="message-header"><span class="window-title">Eliminar Personal</span><i class="fas fa-times window-title-icon" onClick="cerrar_eliminar_personal()"></i></h1>
+		<h1 class="message-header"><span class="message-title">Eliminar Personal</span><i class="fas fa-times message-title-icon" onClick="cerrar_eliminar_personal()"></i></h1>
 		<div class="message-content height1row"></div>
 		<div class="message-buttons">
 			<button class="message-button" id="msg-btn-salir" onClick="cerrar_eliminar_personal()">Salir</button>
@@ -30,17 +40,17 @@
 				<label class="width3colmn inputlabel">Expedido:</label>
 				<span class="width3colmn inputradio">
 					<label class="label-radio">
-						<input type="radio" class="option-input radio" name="genero" value="masculino" required="true"/>
+						<input type="radio" class="option-input radio" name="genero" id="genero_m" value="Masculino" required="true"/>
 						Masculino
 					</label>
 					<label class="label-radio">
-						<input type="radio" class="option-input radio" name="genero" value="femenino" required="true"/>
+						<input type="radio" class="option-input radio" name="genero" id="genero_f" value="Femenino" required="true"/>
 						Femenino
 					</label>
 				</span>
 				<input type="text" name="ci" id="ci" class="width3colmn inputtext" placeholder="Numero carnet" required />
 				<span class=" width3colmn custom-dropdown">
-					<select data-placeholder="Lugar Expedido" name="expedido" required="true">
+					<select data-placeholder="Lugar Expedido" name="expedido" id="expedido" required="true">
 						<option value="Beni">Beni</option>
 						<option value="Chuquisaca">Chuquisaca</option>
 						<option value="Cochabamba">Cochabamba</option>
@@ -91,8 +101,8 @@
 				echo '<td class="action-setting">'
 				?>
 				<i onClick="ver_eliminar_personal('<?=$persona->id_personal?>', '<?=$persona->nombre?>')" class="fas fa-trash-alt"></i>
-				<i onClick="ver_editar_personal('<?=$persona->id_personal?>', '<?=$persona->nombre?>')" class="fas fa-pencil-alt"></i>
-				<i onClick="ver_info_personal('<?=$persona->id_personal?>', '<?=$persona->nombre?>')" class="fas fa-eye"></i>
+				<i onClick="ver_editar_personal('<?=$persona->id_personal?>')" class="fas fa-pencil-alt"></i>
+				<i onClick="ver_info_personal('<?=$persona->id_personal?>')" class="fas fa-eye"></i>
 				<?php
 				echo '</td>';
 				echo '<td>'.$persona->nombre.' '.$persona->ap_pat.' '.$persona->ap_mat.'</td>';
