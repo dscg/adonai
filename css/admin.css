@@ -53,6 +53,11 @@ label{
 .height3row {height:180px;}
 .height4row {height:240px;}
 .height5row {height:300px;}
+.height6row {height:360px;}
+.height7row {height:420px;}
+.height8row {height:480px;}
+.height9row {height:540px;}
+.height0row {height:600px;}
 .scrollableY {overflow-y: scroll;}
 .width1colmn{width:78%;}
 .width2colmn{width:33%;}
@@ -336,6 +341,9 @@ label{
 .odd{
     background-color: rgba(111, 122, 133, 0.2);
 }
+.fontcenter{
+	text-align: center;
+}
 /*
 .inputfile:focus + label,
 .inputfile + label:hover {
@@ -386,7 +394,8 @@ label{
 	text-decoration: none;
 	font-family: Helvetica, Arial, sans-serif;
 	font-size: 12px;
-	color: #e4e4e4;
+	color: #fff;
+/*	color: #e4e4e4;*/
 	text-shadow: 0px 0px 10px black;
 	transition: color .2s ease-in-out;
 	
@@ -414,7 +423,7 @@ label{
 .menu a.signout { background: url(../img/admin/arrow.png) no-repeat 6px center; }
 */
 
-.new-video, .new-personal{
+.new-video, .new-personal, .new-record{
 	border: 2px solid green;
 	border-radius: 5px;
 	padding:1px 2px;

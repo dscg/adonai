@@ -1,0 +1,35 @@
+ADMINISTRADOR
+	personal
+		nombres, apellido paterno, apellido materno, email, telefono, 
+		celular, genero, carnet de indentidad, dpto. de expediod del carnet,
+		fecha nacimiento, fecha inicio, direccion
+	videos
+		titulo del video, video formato webm y mp4
+	servicios
+		nombre, precio, foto, precio de reserva, puntos necesarios del cliente
+	productos
+		nombre, codigo, foto, cantidad, precio venta, precio compra
+	reservas
+		numero de incumplimientos para bloqueo, tiempo de notificacion 
+		antes de la reserva, tiempo de aviso del cliente  para cancelar una reserva, 
+		cantidad de avisos dia, titulo de notificacion, mensaje de la notificacion
+	clientes
+		nombre, apellidos, fecha nac, cedula de identidad, celular, observaciones.
+		puntos
+			cliente, descripcion, cantidad, estado, fecha asignacion, fecha registro
+		Notificaciones
+			 titulo, mensaje, fecha inicio, fecha final, cantidad de avisos por dia
+		promociones normales
+			titulo, mensaje, autonotificar, fecha inicio, fecha final, monto de descuento, producto,
+			servicio, tipos de clientes por tiempo (antiguedad, cumpleanios, familiar dependientes)
+		promocion combo
+			titulo, mensaje, autonotificar, fecha inicio, fecha final, monto de descuento, producto, 
+			servicio, tipos de clientes por tiempo (antiguedad)
+		Configuraciones
+			meses para asignar antiguedad
+			cantidad de dependientes para descuentos y promociones
+CAJA
+	venta
+		personal que vende, tipo venta (directa, cortesia), producto, descuento, 
+		ingreso extra, observacion
+SYSTEM

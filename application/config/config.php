@@ -29,6 +29,7 @@ date_default_timezone_set('America/La_Paz');
 | a PHP script and you can easily do that on your own.
 |
 */
+//$config['base_url'] = 'http://adonai.byethost10.com/';
 $config['base_url'] = 'http://localhost/adonai/';
 
 //define("JS_PATH", $config['base_url']."js/");

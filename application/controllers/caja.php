@@ -14,7 +14,6 @@ class Caja extends CI_Controller {
 		if($this->session->userdata('perfil') == FALSE || $this->session->userdata('perfil') != 'caja'){
 			redirect(base_url().'login');
 		}
-		//$data['titulo'] = 'Bienvenido de nuevo ' .$this->session->userdata('perfil');
 		$this->load->view('caja/header');
 		$this->load->view('caja/body');
 		$this->load->view('caja/footer');

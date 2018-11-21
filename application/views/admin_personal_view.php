@@ -82,6 +82,7 @@
 </div>
 <div class="container_12">
 	<table id="tabla" class="display cell-border table-striped table-bordered" style="width:100%">
+		<caption>Lista personal</caption>
 		<thead>
 			<tr>
 				<th>Acci&oacute;n</th>
@@ -96,8 +97,10 @@
 		<tbody>
 		<?php
 		if(!empty($personal)){
+			$odd = true;
 			foreach($personal as $persona){
-				echo '<tr>';
+				$odd = ($odd) ? false : true;
+				echo '<tr class="'.((false) ? "odd" : "").'">';
 				echo '<td class="action-setting">'
 				?>
 				<i onClick="ver_eliminar_personal('<?=$persona->id_personal?>', '<?=$persona->nombre?>')" class="fas fa-trash-alt"></i>
@@ -116,6 +119,18 @@
 		}
 		?>
 		</tbody>
-		<tfoot></tfoot>
+		<tfoot>
+			<!--
+			<tr>
+				<th>Acci&oacute;n</th>
+				<th>Nombre</th>
+				<th>Carnet</th>
+				<th>Telefono</th>
+				<th>Celular</th>
+				<th>Fecha Inicio</th>
+				<th>Direcci&oacute;n</th>
+			</tr>
+			-->
+		</tfoot>
 	</table>
 </div>
