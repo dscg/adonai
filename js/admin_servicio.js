@@ -1,7 +1,7 @@
 
 // SERVICIO
 var id_servicio_eliminar = '0';
-var id_servico_editar = '0';
+var id_servicio_editar = '0';
 var bb_servicio_editar = false;
 function servicio(){
 	$('.title-page').html('Servicio');
@@ -30,7 +30,7 @@ function lista_servicio(){
 		],
 		language: lenguaje_es
 	});
-	$('<i class="fas fa-plus-circle new-record" onClick="ver_ventana_servicio(\' Nuevo Servicio\', \'required_img\')"> Nuevo Servicio</i>').appendTo('div.dataTables_wrapper');
+	$('<i class="fas fa-plus-circle new-record" onClick="ver_ventana_servicio(\' Nuevo Servicio\')"> Nuevo Servicio</i>').appendTo('div.dataTables_wrapper');
 	document.getElementById("file").onchange = function () {
 		var label = document.getElementById("file-label");
 		var size_name = this.value.length;
@@ -38,9 +38,8 @@ function lista_servicio(){
 		label.style.backgroundColor = (size_name > 1) ? "rgba(44, 124, 222, 0.8)" : "rgba(111, 122, 133, 0.8)";
 	};
 }
-function ver_ventana_servicio(titulo_ventana, required){
+function ver_ventana_servicio(titulo_ventana){
 	$('.window-popup').css('display', 'block');
-	$('#file').attr("required", ((required == 'required_img') ? true: false));;
 	$('.window-title').html(titulo_ventana);
 }
 function cerrar_ventana_servicio(){
@@ -91,89 +90,6 @@ function guardar_servicio(target){
 	try{
 		var tag_img = $('#file');
 		var archivos = tag_img[0].files;
-		if (archivos.length > 0) {
-			var archivo = archivos[0];
-			var form_data = new FormData();
-			form_data.append('file', archivo);
-			form_data.append('nombre', document.getElementById('nombre').value);
-			form_data.append('precio', document.getElementById('precio').value);
-			form_data.append('precio_reserva', document.getElementById('precio_reserva').value);
-			form_data.append('puntos_cliente', document.getElementById('puntos_cliente').value);
-			$.ajax({
-				url: base_url+'admin/crearServicio',
-				type: 'post',
-				data: form_data,
-				contentType: false,
-				processData: false,
-				beforeSend: function() { 
-					$("#btn-guardar").html('Subiendo ...');
-					$("#btn-guardar").css('color','green');
-					$("#btn-guardar").prop('disabled', true); // disable button
-				},
-				success: function(res){
-					if(res == "true"){
-						$("#btn-guardar").html('Guardar');
-						$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
-						$("#btn-guardar").prop('disabled', false); // enable button
-						cerrar_ventana_servicio();
-						servicio();
-					} else {
-						console.log('Error al subir archivo',res);
-						alert('Error al subir archivo');
-					}
-					$("#btn-guardar").html('Guardar');
-					$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
-					$("#btn-guardar").prop('disabled', false); // enable button
-				},
-				error: function(e){
-					$("#btn-guardar").prop('disabled', false); // enable button
-					console.log('ERROR:',e);
-				}
-			});
-		}
-		return false;
-	}catch(e){
-		console.log('Error de envio:',e);
-		return false;
-	}
-	return false;
-}
-function ver_editar_servicio(id_servicio){
-	bb_servicio_editar = true;
-	id_servicio_eliminar = id_servicio;
-	$.ajax({
-		url: base_url+'admin/seleccionarServicio',
-		type: 'post',
-		dataType: "json",  
-		cache:false,
-		data: {'id_servicio': id_servicio_eliminar},
-		success: function(res){
-			if(res.length>0){
-				res = res[0];
-				$('#nombre').val(res['nombre']);
-				$('#precio').val(res['precio']);
-//				$('#file-label').val(res['img']);
-				$('#precio_reserva').val(res['precio_reserva']);
-				$('#puntos_cliente').val(res['puntos_cliente']);
-				ver_ventana_servicio(' Editar Servicio', '');
-			} else {alert('No es posible editar');}
-		},
-		error: function(e){
-			console.log('ERROR:',e);
-		}
-	});
-}
-function cerrar_editar_servicio(){
-	$(".message-content")[0].innerHTML = '';
-	$('.message-popup').css('display','none');
-}
-function editar_servicio(){
-	try{
-		console.log('editar_servicio');
-		//var formElement = document.getElementById("form");
-		//var form_data = new FormData(formElement);
-		var tag_video = $('#file');
-		var archivos = tag_video[0].files;
 		var form_data = new FormData();
 		var exist_file = 'no';
 		if (archivos.length > 0) {
@@ -187,7 +103,92 @@ function editar_servicio(){
 		form_data.append('precio_reserva', document.getElementById('precio_reserva').value);
 		form_data.append('puntos_cliente', document.getElementById('puntos_cliente').value);
 		$.ajax({
-			url: base_url+'admin/actualizarServicio/'+id_servicio_eliminar,
+			url: base_url+'admin/crearServicio',
+			type: 'post',
+			data: form_data,
+			contentType: false,
+			processData: false,
+			beforeSend: function() { 
+				$("#btn-guardar").html('Subiendo ...');
+				$("#btn-guardar").css('color','green');
+				$("#btn-guardar").prop('disabled', true); // disable button
+			},
+			success: function(res){
+				if(res == "true"){
+					$("#btn-guardar").html('Guardar');
+					$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
+					$("#btn-guardar").prop('disabled', false); // enable button
+					cerrar_ventana_servicio();
+					servicio();
+				} else {
+					console.log('Error al guardar',res);
+					alert('Error al guardar');
+				}
+				$("#btn-guardar").html('Guardar');
+				$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
+				$("#btn-guardar").prop('disabled', false); // enable button
+			},
+			error: function(e){
+				$("#btn-guardar").prop('disabled', false); // enable button
+				console.log('ERROR:',e);
+			}
+		});
+		return false;
+	}catch(e){
+		console.log('Error de envio:',e);
+		return false;
+	}
+	return false;
+}
+function ver_editar_servicio(id_servicio){
+	bb_servicio_editar = true;
+	id_servicio_editar = id_servicio;
+	$.ajax({
+		url: base_url+'admin/seleccionarServicio',
+		type: 'post',
+		dataType: "json",  
+		cache:false,
+		data: {'id_servicio': id_servicio_editar},
+		success: function(res){
+			if(res.length>0){
+				res = res[0];
+				$('#nombre').val(res['nombre']);
+				$('#precio').val(res['precio']);
+//				$('#file-label').val(res['img']);
+				$('#precio_reserva').val(res['precio_reserva']);
+				$('#puntos_cliente').val(res['puntos_cliente']);
+				ver_ventana_servicio(' Editar Servicio');
+			} else {alert('No es posible editar');}
+		},
+		error: function(e){
+			console.log('ERROR:',e);
+		}
+	});
+}
+function cerrar_editar_servicio(){
+	$(".message-content")[0].innerHTML = '';
+	$('.message-popup').css('display','none');
+}
+function editar_servicio(){
+	try{
+		//var formElement = document.getElementById("form");
+		//var form_data = new FormData(formElement);
+		var tag_img = $('#file');
+		var archivos = tag_img[0].files;
+		var form_data = new FormData();
+		var exist_file = 'no';
+		if (archivos.length > 0) {
+			exist_file = 'si';
+			var archivo = archivos[0];
+			form_data.append('file', archivo);
+		}
+		form_data.append('exist_file', exist_file);
+		form_data.append('nombre', document.getElementById('nombre').value);
+		form_data.append('precio', document.getElementById('precio').value);
+		form_data.append('precio_reserva', document.getElementById('precio_reserva').value);
+		form_data.append('puntos_cliente', document.getElementById('puntos_cliente').value);
+		$.ajax({
+			url: base_url+'admin/actualizarServicio/'+id_servicio_editar,
 			type: 'post',
 			data: form_data,
 			contentType: false,
@@ -206,8 +207,8 @@ function editar_servicio(){
 					cerrar_ventana_servicio();
 					servicio();
 				} else {
-					console.log('Error al subir archivo',res);
-					alert('Error al subir archivo');
+					console.log('Error al guardar cambios',res);
+					alert('Error al guardar cambios');
 				}
 				$("#btn-guardar").html('Guardar');
 				$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
@@ -239,7 +240,7 @@ function eliminar_servicio(){
 	$.ajax({
 		url: base_url+'admin/eliminarServicio/'+id_servicio_eliminar,
 		type: 'post',
-		data: {'id_servivio':id_servicio_eliminar},
+		data: {'id_servicio':id_servicio_eliminar},
 		contentType: false,
 		processData: false,
 		success: function(res){

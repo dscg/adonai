@@ -1,25 +1,25 @@
 
-// PERSONAL
-var id_personal_eliminar = '0';
-var id_personal_editar = '0';
-var bb_personal_editar = false;
-function personal(){
-	$('.title-page').html('Personal');
+// CLIENTE
+var id_cliente_eliminar = '0';
+var id_cliente_editar = '0';
+var bb_cliente_editar = false;
+function cliente(){
+	$('.title-page').html('Cliente');
 	$.ajax({
-		url: '<?=base_url()?>admin/listaPersonal',
+		url: base_url+'admin/listaCliente',
 		type: 'post',
 		data: {},
 		success: function(res){
 			document.getElementById('section').innerHTML = res;
-			lista_personal();
+			lista_cliente();
 		},
 		error: function(e){
-			document.getElementById('section').innerHTML = '<cente style="color:red;">Errror al generar vista de personal</center>';
+			document.getElementById('section').innerHTML = '<cente style="color:red;">Errror al generar vista de cliente</center>';
 			console.log('ERROR:',e);
 		}
 	});
 }
-function lista_personal(){
+function lista_cliente(){
 	var screen_height = $(window).height()-250;
 	var table = $('#tabla').DataTable({
 		bProcessing: true,
@@ -30,44 +30,41 @@ function lista_personal(){
 		],
 		language: lenguaje_es
 	});
-	$('<i class="fas fa-plus-circle new-personal" onClick="ver_ventana_personal()"> Nuevo Personal</i>').appendTo('div.dataTables_wrapper');
+	$('<i class="fas fa-plus-circle new-record" onClick="ver_ventana_cliente(\' Nuevo Cliente\')"> Nuevo Cliente</i>').appendTo('div.dataTables_wrapper');
 }
-function ver_ventana_personal(){
-	$('.window-popup').css('display','block');
+function ver_ventana_cliente(titulo_ventana){
+	$('.window-popup').css('display', 'block');
+	$('.window-title').html(titulo_ventana);
 }
-function cerrar_ventana_personal(){
+function cerrar_ventana_cliente(){
 	document.getElementById('form').reset();
-	$("#file-label").html('<i class=\"fas fa-upload\"></i> Seleccione un Archivo');
-	$("#file-label").css("background-color", "rgba(111, 122, 133, 0.8)");
 	$("#btn-guardar").html('Guardar');
 	$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
 	$("#btn-guardar").prop('disabled', false); // enable button
 	$('.window-popup').css('display','none');
 }
-function ver_info_personal(id_personal){
-	var personal_info = "";
+function ver_info_cliente(id_cliente){
+	var cliente_info = "";
 	$.ajax({
-		url: base_url+'admin/seleccionarPersonal',
+		url: base_url+'admin/seleccionarCliente',
 		type: 'post',
 		dataType: "json",  
 		cache:false,
-		data: {'id_personal': id_personal},
+		data: {'id_cliente': id_cliente},
 		success: function(res){
 			if(res.length>0){
 				res = res[0];
-				personal_info += '<label class="width2longcolmn infolabel">Nombre:</label><label class="width2longcolmn infolabeltext">'+res['nombre']+'</label>';
-				personal_info += '<label class="width2longcolmn infolabel">Apellido Pateno:</label><label class="width2longcolmn infolabeltext">'+res['ap_pat']+'</label>';
-				personal_info += '<label class="width2longcolmn infolabel">Apellido Mateno:</label><label class="width2longcolmn infolabeltext">'+res['ap_mat']+'</label>';
-				personal_info += '<label class="width2longcolmn infolabel">Email:</label><label class="width2longcolmn infolabeltext">'+res['email']+'</label>';
-				personal_info += '<label class="width2longcolmn infolabel">Telefono:</label><label class="width2longcolmn infolabeltext">'+res['telefono']+'</label>';
-				personal_info += '<label class="width2longcolmn infolabel">Celular:</label><label class="width2longcolmn infolabeltext">'+res['celular']+'</label>';
-				personal_info += '<label class="width2longcolmn infolabel">Genero:</label><label class="width2longcolmn infolabeltext">'+res['genero']+'</label>';
-				personal_info += '<label class="width2longcolmn infolabel">Carnet de Indentidad:</label><label class="width2longcolmn infolabeltext">'+res['ci']+'</label>';
-				personal_info += '<label class="width2longcolmn infolabel">Lugar de Expedido C.I:</label><label class="width2longcolmn infolabeltext">'+res['expedido']+'</label>';
-				personal_info += '<label class="width2longcolmn infolabel">Fecha Nacimiento:</label><label class="width2longcolmn infolabeltext">'+res['fecha_nacimiento']+'</label>';
-				personal_info += '<label class="width2longcolmn infolabel">Fecha Inicio:</label><label class="width2longcolmn infolabeltext">'+res['fecha_inicio']+'</label>';
-				personal_info += '<label class="width2longcolmn infolabel">Direccion:</label><label class="width2longcolmn infolabeltext">'+res['direccion']+'</label>';
-				$(".message-view-content").html(personal_info);
+				cliente_info += '<label class="width2longcolmn infolabel">Nombre:</label><label class="width2longcolmn infolabeltext">'+res['nombre']+'</label>';
+				cliente_info += '<label class="width2longcolmn infolabel">Apellido Paterno:</label><label class="width2longcolmn infolabeltext">'+res['ap_pat']+'</label>';
+				cliente_info += '<label class="width2longcolmn infolabel">Apellido Materno:</label><label class="width2longcolmn infolabeltext">'+res['ap_mat']+'</label>';
+				cliente_info += '<label class="width2longcolmn infolabel">Fecha Nacimiento:</label><label class="width2longcolmn infolabeltext">'+res['fecha_nac']+'</label>';
+				cliente_info += '<label class="width2longcolmn infolabel">Carnet Identidad:</label><label class="width2longcolmn infolabeltext">'+res['ci']+'</label>';
+				cliente_info += '<label class="width2longcolmn infolabel">Expedido:</label><label class="width2longcolmn infolabeltext">'+res['expedido']+'</label>';
+				cliente_info += '<label class="width2longcolmn infolabel">Celular:</label><label class="width2longcolmn infolabeltext">'+res['celular']+'</label>';
+				cliente_info += '<label class="width2longcolmn infolabel">Telefono:</label><label class="width2longcolmn infolabeltext">'+res['telefono']+'</label>';
+				cliente_info += '<label class="width2longcolmn infolabel">Preferencia:</label><label class="width2longcolmn infolabeltext">'+res['preferencia']+'</label>';
+				cliente_info += '<label class="width2longcolmn infolabel">Observacion:</label><label class="width2longcolmn infolabeltext">'+res['observacion']+'</label>';
+				$(".message-view-content").html(cliente_info);
 			} else {alert('No es posible monstrar mas informacion');}
 		},
 		error: function(e){
@@ -76,32 +73,22 @@ function ver_info_personal(id_personal){
 	});
 	$('.message-view-popup').css('display','block');
 }
-function cerrar_info_personal(){
+function cerrar_info_cliente(){
 	$(".message-view-content")[0].innerHTML = '';
 	$('.message-view-popup').css('display','none');
 }
 
-function guardar_personal(target){
-	if(bb_personal_editar){
-		editar_personal();
+function guardar_cliente(target){
+	if(bb_cliente_editar){
+		editar_cliente();
 		return false;
 	}
 	try{
+		//si es solo texto sin archivo
 		var formElement = document.getElementById("form");
 		var form_data = new FormData(formElement);
-/*
-		form_data.append('nombre', document.getElementById('nombre').value);
-		form_data.append('ap_pat', document.getElementById('nombre').value);
-		form_data.append('ap_mat', document.getElementById('nombre').value);
-		form_data.append('email', document.getElementById('nombre').value);
-		form_data.append('telefono', document.getElementById('nombre').value);
-		form_data.append('celular', document.getElementById('nombre').value);
-		form_data.append('celular', document.getElementById('nombre').value);
-		form_data.append('celular', document.getElementById('nombre').value);
-		form_data.append('celular', document.getElementById('nombre').value);
-*/
 		$.ajax({
-			url: base_url+'admin/crearPersonal',
+			url: base_url+'admin/crearCliente',
 			type: 'post',
 			data: form_data,
 			contentType: false,
@@ -116,11 +103,11 @@ function guardar_personal(target){
 					$("#btn-guardar").html('Guardar');
 					$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
 					$("#btn-guardar").prop('disabled', false); // enable button
-					cerrar_ventana_personal();
-					personal();
+					cerrar_ventana_cliente();
+					cliente();
 				} else {
-					console.log('Error al guardar',res);
-					alert('Error al guardar');
+					console.log('Error al subir archivo',res);
+					alert('Error al subir archivo');
 				}
 				$("#btn-guardar").html('Guardar');
 				$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
@@ -133,135 +120,118 @@ function guardar_personal(target){
 		});
 		return false;
 	}catch(e){
-		console.warning('Error de envio:',e);
+		console.log('Error de envio:',e);
 		return false;
 	}
 	return false;
 }
-function ver_editar_personal(id_personal){
-	bb_personal_editar = true;
-	id_personal_editar = id_personal;
-	console.log('id_personal_editar',id_personal_editar);
+function ver_editar_cliente(id_cliente){
+	bb_cliente_editar = true;
+	id_cliente_editar = id_cliente;
 	$.ajax({
-		url: base_url+'admin/seleccionarPersonal',
+		url: base_url+'admin/seleccionarCliente',
 		type: 'post',
 		dataType: "json",  
 		cache:false,
-		data: {'id_personal': id_personal_editar},
+		data: {'id_cliente': id_cliente_editar},
 		success: function(res){
 			if(res.length>0){
 				res = res[0];
-				console.log('res',res);
-//				console.log('res[0]',res[0]);
-//				console.log('res["nombre"]',res['nombre']);
-//				console.log('res.nombre',res.nombre);
 				$('#nombre').val(res['nombre']);
 				$('#ap_pat').val(res['ap_pat']);
 				$('#ap_mat').val(res['ap_mat']);
-				$('#email').val(res['email']);
-				$('#telefono').val(res['telefono']);
-				$('#celular').val(res['celular']);
-				$("#genero_m").attr('checked', (res['genero']=='Masculino') ? true : false);
-				$("#genero_f").attr('checked', (res['genero']!='Masculino') ? true : false);
-				//$('#genero').val(res['genero']);
+				$('#fecha_nac').val(res['fecha_nac']);
 				$('#ci').val(res['ci']);
-				$("#expedido").attr('selected', (res['expedido']=='Beni') ? 'selected' : '');
-				$("#expedido").attr('selected', (res['expedido']=='Chuquisaca') ? 'selected' : '');
-				$("#expedido").attr('selected', (res['expedido']=='Cochabamba') ? 'selected' : '');
-				$("#expedido").attr('selected', (res['expedido']=='La Paz') ? 'selected' : '');
-				$("#expedido").attr('selected', (res['expedido']=='Oruro') ? 'selected' : '');
-				$("#expedido").attr('selected', (res['expedido']=='Pando') ? 'selected' : '');
-				$("#expedido").attr('selected', (res['expedido']=='Potosi') ? 'selected' : '');
-				$("#expedido").attr('selected', (res['expedido']=='Santa Cruz') ? 'selected' : '');
-				$("#expedido").attr('selected', (res['expedido']=='Tarija') ? 'selected' : '');
-				$("#expedido").attr('selected', (res['expedido']=='Extranjero') ? 'selected' : '');
 				$('#expedido').val(res['expedido']);
-				$('#fecha_nacimiento').val(res['fecha_nacimiento']);
-				$('#fecha_inicio').val(res['fecha_inicio']);
-				$('#direccion').val(res['direccion']);
-				ver_ventana_personal();
+				$('#celular').val(res['celular']);
+				$('#telefono').val(res['telefono']);
+				$('#preferencia').val(res['preferencia']);
+				$('#observacion').val(res['observacion']);
+				ver_ventana_cliente(' Editar Cliente');
 			} else {alert('No es posible editar');}
-//			cerrar_eliminar_personal();
-//			personal();
 		},
 		error: function(e){
 			console.log('ERROR:',e);
 		}
 	});
-//	$('.message-popup').css('display','block');
-//	$(".message-content").html('Realmente desea eliminar '+titulo+'?');
 }
-function cerrar_editar_personal(){
+function cerrar_editar_cliente(){
 	$(".message-content")[0].innerHTML = '';
 	$('.message-popup').css('display','none');
 }
-function editar_personal(){
+function editar_cliente(){
 	try{
+		//si es solo texto sin archivo
 		var formElement = document.getElementById("form");
 		var form_data = new FormData(formElement);
 		$.ajax({
-			url: base_url+'admin/actualizarPersonal/'+id_personal_editar,
+			url: base_url+'admin/actualizarCliente/'+id_cliente_editar,
 			type: 'post',
 			data: form_data,
 			contentType: false,
 			processData: false,
-			beforeSend: function() { 
+			beforeSend: function() {
 				$("#btn-guardar").html('Subiendo ...');
 				$("#btn-guardar").css('color','green');
 				$("#btn-guardar").prop('disabled', true); // disable button
 			},
 			success: function(res){
+				bb_cliente_editar = false;
 				if(res == "true"){
 					$("#btn-guardar").html('Guardar');
 					$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
 					$("#btn-guardar").prop('disabled', false); // enable button
-					bb_personal_editar = false;
-					cerrar_ventana_personal();
-					personal();
+					cerrar_ventana_cliente();
+					cliente();
 				} else {
-					console.log('Error al guardar',res);
-					alert('Error al guardar');
+					console.log('Error al subir archivo',res);
+					alert('Error al subir archivo');
 				}
 				$("#btn-guardar").html('Guardar');
 				$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
 				$("#btn-guardar").prop('disabled', false); // enable button
 			},
 			error: function(e){
+				bb_cliente_editar = false;
 				$("#btn-guardar").prop('disabled', false); // enable button
 				console.log('ERROR:',e);
 			}
 		});
 		return false;
 	}catch(e){
+		bb_cliente_editar = false;
 		console.warning('Error de envio:',e);
 		return false;
 	}
 }
-function ver_eliminar_personal(id_personal, titulo){
-	id_personal_eliminar = id_personal;
+function ver_eliminar_cliente(id_cliente, titulo){
+	id_cliente_eliminar = id_cliente;
 	$('.message-popup').css('display','block');
 	$(".message-content").html('Realmente desea eliminar '+titulo+'?');
 }
-function cerrar_eliminar_personal(){
+function cerrar_eliminar_cliente(){
 	$(".message-content")[0].innerHTML = '';
 	$('.message-popup').css('display','none');
 }
-function eliminar_personal(){
+function eliminar_cliente(){
 	$.ajax({
-		url: base_url+'admin/eliminarPersonal/'+id_personal_eliminar,
+		url: base_url+'admin/eliminarCliente/'+id_cliente_eliminar,
 		type: 'post',
-		data: {'id_personal':id_personal_eliminar},
+		data: {'id_cliente':id_cliente_eliminar},
 		contentType: false,
 		processData: false,
 		success: function(res){
-			cerrar_eliminar_personal();
-			personal();
+			cerrar_eliminar_cliente();
+			cliente();
 		},
 		error: function(e){
-			alert('Error al eliminar personal');
+			alert('Error al eliminar cliente');
 			console.log('ERROR:',e);
 		}
 	});
+}
+function msg(c){
+	alert(c);
 }
 
 

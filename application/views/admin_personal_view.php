@@ -80,7 +80,7 @@
 		</div>
 	</form>
 </div>
-<div class="container_12">
+<div class="container col-12">
 	<table id="tabla" class="display cell-border table-striped table-bordered" style="width:100%">
 		<caption>Lista personal</caption>
 		<thead>

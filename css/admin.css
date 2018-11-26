@@ -48,21 +48,23 @@ label{
             transform: translate(-50%, -50%) scale(1);
   }
 }
-.height1row {height:60px;}
-.height2row {height:120px;}
-.height3row {height:180px;}
-.height4row {height:240px;}
-.height5row {height:300px;}
-.height6row {height:360px;}
-.height7row {height:420px;}
-.height8row {height:480px;}
-.height9row {height:540px;}
-.height0row {height:600px;}
+.height1row {height:60px !important;}
+.height2row {height:120px !important;}
+.height3row {height:180px !important;}
+.height4row {height:240px !important;}
+.height5row {height:300px !important;}
+.height6row {height:360px !important;}
+.height7row {height:420px !important;}
+.height8row {height:480px !important;}
+.height9row {height:540px !important;}
+.height0row {height:600px !important;}
 .scrollableY {overflow-y: scroll;}
-.width1colmn{width:78%;}
-.width2colmn{width:33%;}
-.width2longcolmn{width:42%;}
-.width3colmn{width:25%;}
+.width1colmn{width:78% !important;}
+.width2colmn{width:33% !important;}
+.width2longcolmn{width:42% !important;}
+.width3colmn{width:25% !important;}
+.colorbrown{color: brown;}
+.colordarkslategray{color: darkslategray;}
 .window-popup, .message-view-popup, .message-popup{
 	display: none;
 	top: 0px;
@@ -192,7 +194,6 @@ label{
 	text-align: start;
     font-size: 14px;
     color: gray;
-    /*color plomo*/
     display: inline-block;
 	padding: 0px 3px;
 	font-weight: normal;
@@ -243,8 +244,149 @@ label{
     display: flex;
     justify-content: flex-start;
 }
-/*
+
+.inputcheckbox{
+	cursor: pointer;
+	position: relative;
+/*	padding:5px 0 5px 60px;*/
+	display: inline-block;
+    margin: 0px !important;
+    padding: 0px !important;
+    border: 0px !important;
+	height: 25px;
+}
+/* 
+La propiedadd appearance da un aspecto standard a un elemento.
+Por ejemplo: appearance: button
+Como vamos a personalizar nuestros elemento añadimos el valor none
+ */
+.inputcheckbox input,
+.content-select select{
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+
+
+.inputcheckbox i,
+.inputcheckbox i:before{
+	transition: all 0.25s ease;
+}
+
+/* 
+Ocultamos nuestros inputs.
+Con opacity 0. Si utilizamos visibility:hidden o display:none;
+no funcionarían
 */
+.inputcheckbox input{
+	opacity: 0;
+	position: absolute;
+	right: 0;
+}
+
+/*
+Propiedades para cualquier el elmento i después de un input
+dentro de la capa .content-input
+*/
+.inputcheckbox input + i{
+    background-color: rgba(111, 122, 133, 0.8);
+	border:2px solid rgba(0,0,0,0.2);
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+/*
+Propiedades para el checkbox
+*/
+.inputcheckbox input[type=checkbox ] + i{
+	width: 60px;
+	height: 25px;
+	border-radius: 10px;
+	text-align: right;
+	padding-right: 3px;
+	color: wheat;
+}
+
+/*
+Creamos el círculo que aparece encima de los checkbox
+con la etqieta before. Importante aunque no haya contenido
+debemos poner definir este valor.
+*/
+.inputcheckbox input[type=checkbox] + i:before{
+	content: ''; /* No hay contenido */
+	width: 30px;
+	height: 20px;
+	background: #fff;
+	border-radius: 20px;
+	position: absolute;
+	z-index: 1;
+	left: 0px;
+	top: 0px;
+	-webkit-box-shadow: 3px 0 3px 0 rgba(0,0,0,0.2);
+	box-shadow: 3px 0 3px 0 rgba(0,0,0,0.2);
+}
+.inputcheckbox input[type=checkbox] + i:after{
+	content: 'Si';
+	position: absolute;
+	font-size: 18px;
+	color: rgba(255,255,255,1);
+	top: -3px;
+	left: 4px;
+	opacity: 0;
+	transition: all 0.25s ease 0.25s;
+}
+/*
+Con :checked definimos los valores css cuando un input
+como radio o checkbox está checheado
+*/
+.inputcheckbox input[type=checkbox]:checked + i{
+	background: #009955;
+}
+
+.inputcheckbox input[type=checkbox]:checked + i:before{
+	left: 25px;
+	-webkit-box-shadow: -3px 0 3px 0 rgba(0,0,0,0.2);
+	box-shadow: 3px 0 -3px 0 rgba(0,0,0,0.2);
+}
+
+.inputcheckbox input[type=checkbox]:checked + i:after{
+	opacity: 1;
+}
+
+
+
+/*
+	color: wheat;
+*/
+select:invalid {
+  height: 0px !important;
+  opacity: 0 !important;
+  position: absolute !important;
+  display: flex !important;
+}
+
+select:invalid[multiple] {
+  margin-top: 15px !important;
+}
+.chosen-container{
+	width:78%;
+    display: inline-block;
+	border-radius: 5px;
+	vertical-align: top;
+}
+.chosen-single span, .chosen-single{
+    color: white;
+	font-weight: normal;
+	padding: 0 !important;
+    background-color: rgba(111, 122, 133, 0.8);/*color plomo*/
+}
+.group-result {
+    cursor: pointer !important;
+}
+.chosen-drop .chosen-results {
+    max-height: 100px !important;
+}
 .option-input {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -338,6 +480,27 @@ label{
 }
 
 
+.tabla-producto, .tabla-servicio{
+	display: inline-table;
+}
+.tabla-td{
+	position: relative;
+    background-color: rgba(111, 122, 133, 0.6);
+    margin:0px !important;
+}
+.tabla-input-number{
+	position: relative;
+	width: 100%;
+	height: 100%;
+    background-color: rgba(111, 122, 133, 0.6);
+    color: white;
+    margin:0px !important;
+    padding:0px !important;
+    border:0px !important;
+    text-align: right;
+    font-size: 20px;
+    border-radius: 10px;
+}
 .odd{
     background-color: rgba(111, 122, 133, 0.2);
 }
@@ -350,7 +513,6 @@ label{
     background-color: rgba(44, 124, 222, 0.8);
 }
 */
-
 
 
 

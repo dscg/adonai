@@ -103,11 +103,11 @@ class Admin extends CI_Controller {
 	}
 	public function crearServicio(){
 		if ($this->validarSession()) {
-			if (isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') {
-				$data['nombre'] = $this->input->post('nombre');
-				$data['precio'] = $this->input->post('precio');
-				$data['precio_reserva'] = $this->input->post('precio_reserva');
-				$data['puntos_cliente'] = $this->input->post('puntos_cliente');
+			$data['nombre'] = $this->input->post('nombre');
+			$data['precio'] = $this->input->post('precio');
+			$data['precio_reserva'] = $this->input->post('precio_reserva');
+			$data['puntos_cliente'] = $this->input->post('puntos_cliente');
+			if ($this->input->post('exist_file')=='si' && isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') {
 				unset($config);
 				$date = date("ymd");
 				$configServicio['max_size'] = '0';// 0 no limit in bytes this field
@@ -128,7 +128,8 @@ class Admin extends CI_Controller {
 					echo json_encode(true);
 				}
 			}else{
-				echo "Por favor seleccione un archivo";
+				$this->admin_model->crearServicio($data);
+				echo json_encode(true);
 			}
 		}
 	}
@@ -178,7 +179,7 @@ class Admin extends CI_Controller {
 	//PRODUCTO
 	public function listaProducto(){
 		if ($this->validarSession()) {
-			$data['producto'] = $this->admin_model->listarProducto();
+			$data['productos'] = $this->admin_model->listarProducto();
 			$this->load->view('admin_producto_view', $data);
 		}
 	}
@@ -194,12 +195,33 @@ class Admin extends CI_Controller {
 		if ($this->validarSession()) {
 			$data['nombre'] = $this->input->post('nombre');
 			$data['codigo'] = $this->input->post('codigo');
-			$data['img'] = $this->input->post('img');
 			$data['cantidad'] = $this->input->post('cantidad');
 			$data['precio_compra'] = $this->input->post('precio_compra');
 			$data['precio_venta'] = $this->input->post('precio_venta');
-			$this->admin_model->crearProducto($data);
-			echo json_encode(true);
+			if ($this->input->post('exist_file')=='si' && isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') {
+				unset($config);
+				$date = date("ymd");
+				$configProducto['max_size'] = '0';// 0 no limit in bytes this field
+				$configProducto['overwrite'] = FALSE;
+				$configProducto['remove_spaces'] = TRUE;
+				$configProducto['file_name'] = $date.$_FILES['file']['name'];
+				$configProducto['upload_path'] = './img/producto';
+				$configProducto['allowed_types'] = 'gif|jpg|png|mp4|webm|avi|flv';
+				$this->load->library('upload', $configProducto);
+				$this->upload->initialize($configProducto);
+				if (!$this->upload->do_upload('file')) { #Aquí me refiero a "foto", el nombre que pusimos en FormData
+					$error = array('error' => $this->upload->display_errors());
+					echo json_encode($error);
+				} else {
+					$file_info = $this->upload->data();
+					$data['img'] = $file_info['file_name'];
+					$this->admin_model->crearProducto($data);
+					echo json_encode(true);
+				}
+			}else{
+				$this->admin_model->crearProducto($data);
+				echo json_encode(true);
+			}
 		}
 	}
 	public function actualizarProducto($id){
@@ -207,11 +229,33 @@ class Admin extends CI_Controller {
 			$data['id_producto'] = $id;
 			$data['nombre'] = $this->input->post('nombre');
 			$data['codigo'] = $this->input->post('codigo');
-			$data['img'] = $this->input->post('img');
+			$data['cantidad'] = $this->input->post('cantidad');
 			$data['precio_compra'] = $this->input->post('precio_compra');
 			$data['precio_venta'] = $this->input->post('precio_venta');
-			$this->admin_model->editarProducto($id, $data);
-			echo json_encode(true);
+			if ($this->input->post('exist_file')=='si' && isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') {
+				unset($config);
+				$date = date("ymd");
+				$configProducto['max_size'] = '0';// 0 no limit in bytes this field
+				$configProducto['overwrite'] = FALSE;
+				$configProducto['remove_spaces'] = TRUE;
+				$configProducto['file_name'] = $date.$_FILES['file']['name'];
+				$configProducto['upload_path'] = './img/producto';
+				$configProducto['allowed_types'] = 'gif|jpg|png|mp4|webm|avi|flv';
+				$this->load->library('upload', $configProducto);
+				$this->upload->initialize($configProducto);
+				if (!$this->upload->do_upload('file')) { #Aquí me refiero a "foto", el nombre que pusimos en FormData
+					$error = array('error' => $this->upload->display_errors());
+					echo json_encode($error);
+				} else {
+					$file_info = $this->upload->data();
+					$data['img'] = $file_info['file_name'];
+					$this->admin_model->editarProducto($id, $data);
+					echo json_encode(true);
+				}
+			}else{
+				$this->admin_model->editarProducto($id, $data);
+				echo json_encode(true);
+			}
 		}
 	}
 	public function eliminarProducto($id){
@@ -228,33 +272,21 @@ class Admin extends CI_Controller {
 	//RESERVAS
 	public function listaReserva(){
 		if ($this->validarSession()) {
-			$data['reserva'] = $this->admin_model->listarReserva();
+			$data['reservas'] = $this->admin_model->listarReserva();
 			$this->load->view('admin_reserva_view', $data);
 		}
 	}
 	public function seleccionarReserva(){
 		if ($this->validarSession()) {
-			$id_reserva = $this->input->post('id_reserva');
+			$id_reserva = $this->input->post('id_reserva_config');
 			$data = $this->admin_model->seleccionarReserva($id_reserva);
 			header('Content-Type: application/json');
 			echo json_encode($data);
 		}
 	}
-	public function crearReserva(){
-		if ($this->validarSession()) {
-			$data['cantidad_bloqueo'] = $this->input->post('cantidad_bloqueo');
-			$data['tiempo_recordatorio'] = $this->input->post('tiempo_recordatorio');
-			$data['tiempo_cancelar'] = $this->input->post('tiempo_cancelar');
-			$data['cantidad_avisos_dia'] = $this->input->post('cantidad_avisos_dia');
-			$data['titulo'] = $this->input->post('titulo');
-			$data['mensaje'] = $this->input->post('mensaje');
-			$this->admin_model->crearReserva($data);
-			echo json_encode(true);
-		}
-	}
 	public function actualizarReserva($id){
 		if ($this->validarSession()) {
-			$data['id_reserva'] = $id;
+			$data['id_reserva_config'] = $id;
 			$data['cantidad_bloqueo'] = $this->input->post('cantidad_bloqueo');
 			$data['tiempo_recordatorio'] = $this->input->post('tiempo_recordatorio');
 			$data['tiempo_cancelar'] = $this->input->post('tiempo_cancelar');
@@ -265,21 +297,13 @@ class Admin extends CI_Controller {
 			echo json_encode(true);
 		}
 	}
-	public function eliminarReserva($id){
-		if ($id == NULL OR !is_numeric($id)){
-			echo json_encode('error');
-			return;
-		}
-		$this->admin_model->eliminarReserva($id);
-		echo json_encode('success');
-		return;
-	}
 
 	//CLIENTE
 	public function listaCliente(){
 		if ($this->validarSession()) {
-			$data['cliente'] = $this->admin_model->listarCliente();
+			$data['clientes'] = $this->admin_model->listarCliente();
 			$this->load->view('admin_cliente_view', $data);
+			$this->load->view('admin_cliente_menu_view');
 		}
 	}
 	public function seleccionarCliente(){
@@ -334,24 +358,27 @@ class Admin extends CI_Controller {
 	}
 
 	//PUNTOS
-	public function listaPuntos(){
+	public function listaPunto(){
 		if ($this->validarSession()) {
-			$data['punto'] = $this->admin_model->listarPunto();
+			$data['puntos'] = $this->admin_model->listarPunto();
+			$data['clientes'] = $this->admin_model->listarCliente();
 			$this->load->view('admin_punto_view', $data);
+			$this->load->view('admin_cliente_menu_view');
 		}
 	}
 	public function seleccionarPunto(){
 		if ($this->validarSession()) {
 			$id_punto = $this->input->post('id_punto');
-			$data = $this->admin_model->seleccionarPunto($id_punto);
+			$data['clientes'] = $this->admin_model->listarCliente();
+			$data['punto'] = $this->admin_model->seleccionarPunto($id_punto);
 			header('Content-Type: application/json');
 			echo json_encode($data);
 		}
 	}
 	public function crearPunto(){
 		if ($this->validarSession()) {
-			$data['descripcion'] = $this->input->post('descripcion');
 			$data['id_cliente'] = $this->input->post('id_cliente');
+			$data['descripcion'] = $this->input->post('descripcion');
 			$data['cantidad'] = $this->input->post('cantidad');
 			$data['estado'] = $this->input->post('estado');
 			$data['fecha_registro'] = $this->input->post('fecha_registro');
@@ -363,8 +390,8 @@ class Admin extends CI_Controller {
 	public function actualizarPunto($id){
 		if ($this->validarSession()) {
 			$data['id_punto'] = $id;
-			$data['descripcion'] = $this->input->post('descripcion');
 			$data['id_cliente'] = $this->input->post('id_cliente');
+			$data['descripcion'] = $this->input->post('descripcion');
 			$data['cantidad'] = $this->input->post('cantidad');
 			$data['estado'] = $this->input->post('estado');
 			$data['fecha_registro'] = $this->input->post('fecha_registro');
@@ -384,10 +411,11 @@ class Admin extends CI_Controller {
 	}
 
 	//NOTIFICACIONES
-	public function listaNotificaciones(){
+	public function listaNotificacion(){
 		if ($this->validarSession()) {
-			$data['notificacion'] = $this->admin_model->listarNotificacion();
+			$data['notificaciones'] = $this->admin_model->listarNotificacion();
 			$this->load->view('admin_notificacion_view', $data);
+			$this->load->view('admin_cliente_menu_view', $data);
 		}
 	}
 	public function seleccionarNotificacion(){
@@ -431,124 +459,97 @@ class Admin extends CI_Controller {
 		return;
 	}
 
-	//PROMOCION_NORMAL
-	public function listaPromocionNormal(){
+	//PROMOCIONES
+	public function listaPromocion(){
 		if ($this->validarSession()) {
-			$data['promocion_normal'] = $this->admin_model->listarPromocionNormal();
-			$this->load->view('admin_promocion_normal_view', $data);
+			$data['promociones'] = $this->admin_model->listarPromocion();
+			$data['productos'] = $this->admin_model->listarProducto();
+			$data['servicios'] = $this->admin_model->listarServicio();
+			$this->load->view('admin_promocion_view', $data);
+			$this->load->view('admin_cliente_menu_view', $data);
 		}
 	}
-	public function seleccionarPromocionNormal(){
+	public function seleccionarPromocion(){
 		if ($this->validarSession()) {
-			$id_promocion_normal = $this->input->post('id_promocion_normal');
-			$data = $this->admin_model->seleccionarPromocionNormal($id_promocion_normal);
+			$id_promocion = $this->input->post('id_promocion');
+			$data['promocion'] = $this->admin_model->seleccionarPromocion($id_promocion);
+			$data['productos'] = $this->admin_model->listarProducto();
+			$data['servicios'] = $this->admin_model->listarServicio();
+			$data['promocion_productos'] = $this->admin_model->seleccionarRelPromocionProductos($id_promocion);
+			$data['promocion_servicios'] = $this->admin_model->seleccionarRelPromocionServicios($id_promocion);
 			header('Content-Type: application/json');
 			echo json_encode($data);
 		}
 	}
-	public function crearPromocionNormal(){
+	public function crearPromocion(){
 		if ($this->validarSession()) {
-			$data['id_producto'] = $this->input->post('id_producto');
-			$data['id_servicio'] = $this->input->post('id_servicio');
 			$data['titulo'] = $this->input->post('titulo');
 			$data['mensaje'] = $this->input->post('mensaje');
 			$data['auto_notificar'] = $this->input->post('auto_notificar');
-			$data['fecha_inicio'] = $this->input->post('fecha_inicior');
+			$data['fecha_inicio'] = $this->input->post('fecha_inicio');
 			$data['fecha_final'] = $this->input->post('fecha_final');
 			$data['monto_descuento'] = $this->input->post('monto_descuento');
 			$data['por_antiguedad'] = $this->input->post('por_antiguedad');
 			$data['por_cumpleanios'] = $this->input->post('por_cumpleanios');
 			$data['por_familiar'] = $this->input->post('por_familiar');
-			$this->admin_model->crearPromocionNormal($data);
+			$productos = json_decode($this->input->post('productos'));
+			$servicios = json_decode($this->input->post('servicios'));
+			$id_promocion = $this->admin_model->crearPromocion($data);
+			foreach($productos as $producto){
+				$data_prd['id_promocion'] = $id_promocion;
+				$data_prd['id_producto'] = $producto->id_producto;
+				$data_prd['cantidad'] = $producto->cantidad;
+				$this->admin_model->crearRelPromocionProductos($data_prd);
+			}
+			foreach($servicios as $servicio){
+				$data_srv['id_promocion'] = $id_promocion;
+				$data_srv['id_servicio'] = $servicio->id_servicio;
+				$data_srv['cantidad'] = $servicio->cantidad;
+				$this->admin_model->crearRelPromocionServicios($data_srv);
+			}
 			echo json_encode(true);
 		}
 	}
-	public function actualizarPromocionNormal($id){
+	public function actualizarPromocion($id_promocion){
 		if ($this->validarSession()) {
-			$data['id_producto'] = $this->input->post('id_producto');
-			$data['id_servicio'] = $this->input->post('id_servicio');
 			$data['titulo'] = $this->input->post('titulo');
 			$data['mensaje'] = $this->input->post('mensaje');
 			$data['auto_notificar'] = $this->input->post('auto_notificar');
-			$data['fecha_inicio'] = $this->input->post('fecha_inicior');
+			$data['fecha_inicio'] = $this->input->post('fecha_inicio');
 			$data['fecha_final'] = $this->input->post('fecha_final');
 			$data['monto_descuento'] = $this->input->post('monto_descuento');
 			$data['por_antiguedad'] = $this->input->post('por_antiguedad');
 			$data['por_cumpleanios'] = $this->input->post('por_cumpleanios');
 			$data['por_familiar'] = $this->input->post('por_familiar');
-			$this->admin_model->editarPromocionNormal($id, $data);
-			echo json_encode(true);
-		}
-	}
-	public function eliminarPromocionNormal($id){
-		if ($id == NULL OR !is_numeric($id)){
-			echo json_encode('error');
-			return;
-		}
-		$this->admin_model->eliminarPromocionNormal($id);
-		echo json_encode('success');
-		return;
-	}
+			$this->admin_model->editarPromocion($id_promocion, $data);
+			$productos = json_decode($this->input->post('productos'));
+			$servicios = json_decode($this->input->post('servicios'));
+			$this->admin_model->eliminarRelPromocionProductos($id_promocion);
+			$this->admin_model->eliminarPromocionServicios($id_promocion);
+			foreach($productos as $producto){
+				$data_prd['id_promocion'] = $id_promocion;
+				$data_prd['id_producto'] = $producto->id_producto;
+				$data_prd['cantidad'] = $producto->cantidad;
+				$this->admin_model->crearRelPromocionProductos($data_prd);
+			}
+			foreach($servicios as $servicio){
+				$data_srv['id_promocion'] = $id_promocion;
+				$data_srv['id_servicio'] = $servicio->id_servicio;
+				$data_srv['cantidad'] = $servicio->cantidad;
+				$this->admin_model->crearRelPromocionServicios($data_srv);
+			}
 
-	//PROMOCION_COMBO
-	public function listaPromocionCombo(){
-		if ($this->validarSession()) {
-			$data['promocion_combo'] = $this->admin_model->listarPromocionCombo();
-			$this->load->view('admin_promocion_combo_view', $data);
-		}
-	}
-	public function seleccionarPromocionCombo(){
-		if ($this->validarSession()) {
-			$id_promocion_combo = $this->input->post('id_promocion_combo');
-			$data['promocion_combo'] = $this->admin_model->seleccionarPromocionCombo($id_promocion_combo);
-			$data['productos'] = $this->admin_model->seleccionarRelPromocionComboProductos($id_promocion_combo);
-			$data['servicios'] = $this->admin_model->seleccionarRelPromocionComboServicios($id_promocion_combo);
-			header('Content-Type: application/json');
-			echo json_encode($data);
-		}
-	}
-	public function crearPromocionCombo(){
-		if ($this->validarSession()) {
-			$data['titulo'] = $this->input->post('titulo');
-			$data['mensaje'] = $this->input->post('mensaje');
-			$data['auto_notificar'] = $this->input->post('auto_notificar');
-			$data['fecha_inicio'] = $this->input->post('fecha_inicior');
-			$data['fecha_final'] = $this->input->post('fecha_final');
-			$data['monto_descuento'] = $this->input->post('monto_descuento');
-			$data['por_antiguedad'] = $this->input->post('por_antiguedad');
-			$data['por_cumpleanios'] = $this->input->post('por_cumpleanios');
-			$data['por_familiar'] = $this->input->post('por_familiar');
-			$this->admin_model->crearPromocionCombo($data);
-			$this->admin_model->crearRelPromocionComboProductos($this->input->post('productos'));
-			$this->admin_model->crearRelPromocionComboServicios($this->input->post('servicios'));
 			echo json_encode(true);
 		}
 	}
-	public function actualizarPromocionCombo($id){
-		if ($this->validarSession()) {
-			$data['titulo'] = $this->input->post('titulo');
-			$data['mensaje'] = $this->input->post('mensaje');
-			$data['auto_notificar'] = $this->input->post('auto_notificar');
-			$data['fecha_inicio'] = $this->input->post('fecha_inicior');
-			$data['fecha_final'] = $this->input->post('fecha_final');
-			$data['monto_descuento'] = $this->input->post('monto_descuento');
-			$data['por_antiguedad'] = $this->input->post('por_antiguedad');
-			$data['por_cumpleanios'] = $this->input->post('por_cumpleanios');
-			$data['por_familiar'] = $this->input->post('por_familiar');
-			$this->admin_model->editarPromocionCombo($id, $data);
-			$this->admin_model->eliminarRelPromocionComboProductos($this->input->post('producto'));
-			$this->admin_model->crearRelPromocionComboProductos($this->input->post('producto'));
-			$this->admin_model->eliminarPromocionComboServicios($this->input->post('servicio'));
-			$this->admin_model->crearRelPromocionComboServicios($this->input->post('servicio'));
-			echo json_encode(true);
-		}
-	}
-	public function eliminarPromocionCombo($id){
+	public function eliminarPromocion($id){
 		if ($id == NULL OR !is_numeric($id)){
 			echo json_encode('error');
 			return;
 		}
-		$this->admin_model->eliminarPromocionCombo($id);
+		$this->admin_model->eliminarRelPromocionProductos($id);
+		$this->admin_model->eliminarPromocionServicios($id);
+		$this->admin_model->eliminarPromocion($id);
 		echo json_encode('success');
 		return;
 	}
@@ -557,7 +558,8 @@ class Admin extends CI_Controller {
 	public function listaConfiguracionCliente(){
 		if ($this->validarSession()) {
 			$data['configuracion_cliente'] = $this->admin_model->listarConfiguracionCliente();
-			$this->load->view('admin_configuracion_cliente_view', $data);
+			$this->load->view('admin_cliente_conf_view', $data);
+			$this->load->view('admin_cliente_menu_view', $data);
 		}
 	}
 	public function seleccionarConfiguracionCliente(){

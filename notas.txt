@@ -14,7 +14,7 @@ ADMINISTRADOR
 		antes de la reserva, tiempo de aviso del cliente  para cancelar una reserva, 
 		cantidad de avisos dia, titulo de notificacion, mensaje de la notificacion
 	clientes
-		nombre, apellidos, fecha nac, cedula de identidad, celular, observaciones.
+		nombre, apellidos, fecha nac, cedula de identidad, celular, observaciones, preferencias.
 		puntos
 			cliente, descripcion, cantidad, estado, fecha asignacion, fecha registro
 		Notificaciones

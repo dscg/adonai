@@ -87,6 +87,7 @@ function guardar_personal(target){
 		return false;
 	}
 	try{
+		// si es solo texto sin archivos
 		var formElement = document.getElementById("form");
 		var form_data = new FormData(formElement);
 /*
@@ -197,6 +198,7 @@ function cerrar_editar_personal(){
 }
 function editar_personal(){
 	try{
+		//si es solo texto sin archivo
 		var formElement = document.getElementById("form");
 		var form_data = new FormData(formElement);
 		$.ajax({

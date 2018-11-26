@@ -4,7 +4,9 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title class="title-page">Adonai</title>
 	<link rel="stylesheet" type="text/css" href="<?=base_url()?>css/admin.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>css/admin_circular_menu.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="<?=base_url()?>css/fontawesome.min.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>css/chosen.min.css" media="screen" />
 <!--
 	<link rel="stylesheet" type="text/css" href="<?=base_url()?>css/datatables.min.css" media="screen" />
 -->
@@ -34,14 +36,17 @@
 	<script src="<?=base_url()?>js/jquery-1.12.4.min.js"></script>
 	<script src="<?=base_url()?>js/datatables.min.js"></script>
 	<script src="<?=base_url()?>js/dataTables.bootstrap4.min.js"></script>
+	<script src="<?=base_url()?>js/chosen.jquery.min.js"></script>
 	<script src="<?=base_url()?>js/admin.js"></script>
 	<script src="<?=base_url()?>js/admin_personal.js"></script>
 	<script src="<?=base_url()?>js/admin_servicio.js"></script>
 	<script src="<?=base_url()?>js/admin_producto.js"></script>
-<!--
 	<script src="<?=base_url()?>js/admin_reserva.js"></script>
 	<script src="<?=base_url()?>js/admin_cliente.js"></script>
--->	
+	<script src="<?=base_url()?>js/admin_punto.js"></script>
+	<script src="<?=base_url()?>js/admin_notificacion.js"></script>
+	<script src="<?=base_url()?>js/admin_promocion.js"></script>
+	<script src="<?=base_url()?>js/admin_configuracion.js"></script>
 	<script src="<?=base_url()?>js/admin_video.js"></script>
 </body>
 </html>
