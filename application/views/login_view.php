@@ -14,7 +14,7 @@
 </head>
 <body>
 	<?php
-	$username = array('name' => 'username', 'placeholder' => 'nombre de usuario');
+	$username = array('name' => 'username', 'placeholder' => 'nombre de usuario', 'autofocus'=>'true');
 	$password = array('name' => 'password', 'id' => 'password',	'placeholder' => 'introduce tu contrase&ntilde;a');
 	$submit = array('name' => 'submit', 'value' => 'Iniciar sesión', 'title' => 'Iniciar sesión');
 	?>
@@ -79,7 +79,9 @@
 			}
 			?>
 			<br><br>
-			<a href="<?=base_url()?>pantalla" target="_blank" style="right:0px;float:right;color:white;font-weight:bold;">Ver pantalla</a>
+			<a href="<?=base_url()?>pantalla" target="_blank" style="right:0px;float:right;color:white;font-weight:bold;">Ver pantalla anuncios</a>
+			<br/><br/>
+			<a href="<?=base_url()?>recepcion" target="_blank" style="right:0px;float:right;color:white;font-weight:bold;">Ver pantalla recepcion cliente</a>
         </div>
     </div>
 	<!---728x90--->

@@ -33,7 +33,7 @@ function lista_video(){
 		],
 		language: lenguaje_es
 	});
-	$('<i class="fas fa-plus-circle new-video" onClick="ver_ventana_video()"> Subir Video</i>').appendTo('div.dataTables_wrapper');
+	$('<i class="fas fa-plus-circle new-record" onClick="ver_ventana_video()"> Subir Video</i>').appendTo('div.dataTables_wrapper');
 	var inputfile = 2;
 	document.getElementById("file").onchange = function () {
 		var label = document.getElementById("file-label");

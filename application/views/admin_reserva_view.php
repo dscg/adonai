@@ -9,24 +9,88 @@
 	</div>
 </div>
 <div class="window-popup">
-	<form action="<?=base_url()?>admin/actualizarReserva" onSubmit="return editar_reserva(this);" method="post" enctype="multipart/form-data" id="form">
+	<form action="<?=base_url()?>admin/crearReserva" onSubmit="return guardar_reserva(this);" method="post" enctype="multipart/form-data" id="form">
 		<div class="window">
 			<h1 class="window-header"><span class="window-title">Nueva Reserva</span><i class="fas fa-times window-title-icon" onClick="cerrar_ventana_reserva()"></i></h1>
-			<div class="window-content height6row scrollableY">
-				<label class="width2colmn inputlabel">Cantidad de Fallas del Cliente para ser Bloqueado:</label>
-				<label class="width2colmn inputlabel">Minutos Antes de la Reserva para la Notificacion:</label>
-				<input class="width2colmn inputtext" type="number" min="0" name="cantidad_bloqueo" id="cantidad_bloqueo" placeholder="#"/>
-				<input class="width2colmn inputtext" type="number" min="0" name="tiempo_recordatorio" id="tiempo_recordatorio" placeholder="#"/>
-				<br/><br/><br/>
-				<label class="width2colmn inputlabel">Minutos Antes para Cancelar una Reserva:</label>
-				<label class="width2colmn inputlabel">Cantidad de Avisos en el Dia de Reserva:</label>
-				<input class="width2colmn inputtext" type="number" min="0" name="tiempo_cancelar" id="tiempo_cancelar" placeholder="#" />
-				<input class="width2colmn inputtext" type="number" min="0" name="cantidad_avisos_dia" id="cantidad_avisos_dia" placeholder="#" />
-				<br/><br/><br/>
-				<label class="width2colmn inputlabel">Titulo de la Notificacion:</label>
-				<label class="width2colmn inputlabel">Mensaje de la Notificacion:</label>
-				<input class="width2colmn inputtext" type="textr" name="titulo" id="titulo" placeholder="Titulo" />
-				<input class="width2colmn inputtext" type="text" name="mensaje" id="mensaje" placeholder="Mensaje" />
+			<div class="window-content height8row scrollableY">
+				<label class="width1colmn inputlabel">Cliente:</label>
+				<br/>
+				<span class="width1colmn">
+					<select data-placeholder="Seleccione un Cliente" class="chosen-select" tabindex="2" name="id_cliente" id="id_cliente" required="true">
+						<option value=""></option>
+						<?php
+						if(!empty($clientes)){
+							foreach($clientes as $cliente){
+								echo '<option value="'.$cliente->id_cliente.'">';
+								echo '['.$cliente->ci.'] '.$cliente->nombre.' '.$cliente->ap_pat.' '.$cliente->ap_mat;
+								echo '</option>';
+							}
+						}
+						?>
+					</select>
+				</span>
+				<br/><br/>
+				<label class="width1colmn inputlabel">Puesto:</label>
+				<br/>
+				<span class="width1colmn">
+					<select data-placeholder="Seleccione un Puesto" class="chosen-select" tabindex="2" name="id_puesto" id="id_puesto" required="true">
+						<option value=""></option>
+						<?php
+						if(!empty($puestos)){
+							foreach($puestos as $puesto){
+								echo '<option value="'.$puesto->id_puesto.'">';
+								echo $puesto->nombre;
+								echo '</option>';
+							}
+						}
+						?>
+					</select>
+				</span>
+				<br/><br/>
+				<label class="width3colmn inputlabel">Fecha:</label>
+				<label class="width3colmn inputlabel">Hora:</label>
+				<label class="width3colmn inputlabel">Estado:</label>
+				<input class="width3colmn inputtext" type="date" name="fecha" id="fecha" required />
+				<input class="width3colmn inputtext" type="time" name="hora" id="hora" required />
+				<span class="width3colmn custom-dropdown">
+					<select data-placeholder="Estado" name="estado" id="estado" required="true">
+						<option value="Reservado" selected>Reservado</option>
+						<option value="Atendido">Atendido</option>
+						<option value="Sin Atencion">Sin Atencion</option>
+						<option value="Cancelado">Cancelado</option>
+					</select>
+				</span>
+				<br/><br/>
+				<label class="width1colmn inputlabel">Servicios:</label>
+				<br/>
+				<span class="width1colmn">
+					<span style="display:none;" id="arg_srv_ids"><?php echo ((!empty($servicios)) ? json_encode($servicios) : "null");?></span>
+					<table id="tabla-servicio" class="tabla-servicio width1colmn">
+						<caption>Lista servicios</caption>
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Estado</th>
+							</tr>
+						</thead>
+						<tbody id="tabla-tbody-servicio">
+						<?php
+						if(!empty($servicios)){
+							foreach($servicios as $servicio){
+								echo '<tr>';
+								echo '<td>'.$servicio->nombre.'</td>';
+								echo '<td class="tabla-td">'.
+								'<label for="id_srv'.$servicio->id_servicio.'" class="width2colmn inputcheckbox">'.
+								'<input type="checkbox" class="check-type-1" name="id_srv'.$servicio->id_servicio.'" id="id_srv'.$servicio->id_servicio.'" value="Si">'.
+								'<i>No </i>';
+								echo '</tr>';
+							}
+						}
+						?>
+						</tbody>
+						<tfoot></tfoot>
+					</table>
+				</span>
 				<br/><br/>
 			</div>
 			<div class="window-buttons">
@@ -42,12 +106,11 @@
 		<thead>
 			<tr>
 				<th>Acci&oacute;n</th>
-				<th>Cantidad para Bloqueo</th>
-				<th>Tiempo para Recordatorio</th>
-				<th>Tiempo Cancelar Reserva</th>
-				<th>Avisos D&iacute;a</th>
-				<th>Titulo</th>
-				<th>Mensaje</th>
+				<th>Cliente</th>
+				<th>Puesto</th>
+				<th>Fecha</th>
+				<th>Hora</th>
+				<th>Estado</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -57,16 +120,16 @@
 				echo '<tr>';
 				echo '<td class="action-setting">'
 				?>
-				<i onClick="ver_editar_reserva('<?=$reserva->id_reserva_config?>')" class="fas fa-pencil-alt"></i>
-				<i onClick="ver_info_reserva('<?=$reserva->id_reserva_config?>')" class="fas fa-eye"></i>
+				<i onClick="ver_eliminar_reserva('<?=$reserva->id_reserva?>', '<?=$reserva->nombreCliente?> <?=$reserva->apPatCliente?>'.\')" class="fas fa-trash-alt"></i>
+				<i onClick="ver_editar_reserva('<?=$reserva->id_reserva?>')" class="fas fa-pencil-alt"></i>
+				<i onClick="ver_info_reserva('<?=$reserva->id_reserva?>')" class="fas fa-eye"></i>
 				<?php
 				echo '</td>';
-				echo '<td>'.$reserva->cantidad_bloqueo.'</td>';
-				echo '<td>'.$reserva->tiempo_recordatorio.'</td>';
-				echo '<td>'.$reserva->tiempo_cancelar.'</td>';
-				echo '<td>'.$reserva->cantidad_avisos_dia.'</td>';
-				echo '<td>'.$reserva->titulo.'</td>';
-				echo '<td>'.$reserva->mensaje.'</td>';
+				echo '<td>'.$reserva->nombreCliente.' '.$reserva->apPatCliente.' '.$reserva->apMatCliente.'</td>';
+				echo '<td>'.$reserva->nombrePuesto.'</td>';
+				echo '<td>'.$reserva->fecha.'</td>';
+				echo '<td>'.$reserva->hora.'</td>';
+				echo '<td>'.$reserva->estado.'</td>';
 				echo '</tr>';
 			}
 		}

@@ -48,13 +48,15 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-//$db['default']['hostname'] = 'sql304.byethost.com';
-//$db['default']['username'] = 'b10_22951218';
-//$db['default']['password'] = 'dscgrrs7';
-//$db['default']['database'] = 'b10_22951218_adonai';
+/*
+$db['default']['hostname'] = 'sql304.byethost.com';
+$db['default']['username'] = 'b10_22951218';
+$db['default']['password'] = 'dscgrrs7';
+$db['default']['database'] = 'b10_22951218_adonai';
+*/
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
-$db['default']['password'] = 'root';
+$db['default']['password'] = '';
 $db['default']['database'] = 'adonai';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';

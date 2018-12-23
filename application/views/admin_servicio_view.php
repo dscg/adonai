@@ -25,8 +25,8 @@
 			<div class="window-content height4row scrollableY">
 				<label class="width2colmn inputlabel">Nombre:</label>
 				<label class="width2colmn inputlabel">Precio:</label>
-				<input type="text" name="nombre" id="nombre" class="inputtext width2colmn" placeholder="Servicio"/>
-				<input type="number" name="precio" id="precio" class="inputtext width2colmn" placeholder="#"/>
+				<input type="text" name="nombre" id="nombre" class="inputtext width2colmn" maxlength="20" required/>
+				<input type="number" name="precio" id="precio" class="inputtext width2colmn" min="0" required/>
 				<br/><br/>
 				<label class="width2colmn inputlabel">Precio de Reserva:</label>
 				<label class="width2colmn inputlabel">Puntos cliente:</label>
@@ -35,7 +35,7 @@
 				<br/><br/>
 				<label class="width1colmn inputlabel fontcenter">Imagen:</label>
 				<br/>
-				<input type="file" name="file" id="file" class="inputfile inputsize70" required="true" accept="image/*"/>
+				<input type="file" name="file" id="file" class="inputfile inputsize70" accept="image/*"/>
 				<label for="file" class="width70pt" id="file-label"><i class="fas fa-upload"></i> Seleccione un Archivo</label>
 				<br/><br/>
 			</div>

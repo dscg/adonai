@@ -1,3 +1,4 @@
+
 // PUNTO
 var id_punto_eliminar = '0';
 var id_punto_editar = '0';
@@ -145,8 +146,8 @@ function ver_editar_punto(id_punto){
 					container_select += '<option value="'+res.clientes[i]['id_cliente']+'"'+((res.clientes[i]['id_cliente']==res.punto.id_cliente) ? ' selected' : '')+'>';
 					container_select += res.clientes[i]['nombre']+' '+res.clientes[i]['ap_pat']+' '+res.clientes[i]['ap_mat'];
 					container_select += '</option>';
-					$('#id_cliente').html(container_select);
 				}
+				$('#id_cliente').html(container_select);
 				$("#id_cliente").trigger("chosen:updated");
 //				$('#id_cliente').val(res.punto['id_cliente']);
 				$('#descripcion').val(res.punto['descripcion']);

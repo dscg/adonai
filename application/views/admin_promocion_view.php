@@ -24,38 +24,62 @@
 			<h1 class="window-header"><span class="window-title">Nuevo Promocion</span><i class="fas fa-times window-title-icon" onClick="cerrar_ventana_promocion()"></i></h1>
 			<div class="window-content height8row scrollableY">
 				<label class="width2colmn inputlabel">Titulo</label>
-				<label class="width2colmn inputlabel">Autonotificar</label>
+				<label class="width2colmn inputlabel">Monto Descuento:</label>
 				<input class="width2colmn inputtext" type="text" name="titulo" id="titulo" required/>
-				<label for="auto_notificar" class="width2colmn inputcheckbox">
-					<input type="checkbox" name="auto_notificar" id="auto_notificar" value="Si">
-					<i>No </i>
-				</label>
+				<input class="width2colmn inputtext" type="number" min="0" name="monto_descuento" id="monto_descuento" required/>
 				<br/><br/>
 				<label class="width1colmn inputlabel">Mensaje</label>
 				<input class="width1colmn inputtext" type="text" name="mensaje" id="mensaje" required/>
 				<br/><br/>
-				<label class="width3colmn inputlabel">Monto Descuento:</label>
 				<label class="width3colmn inputlabel">Fecha Inicio:</label>
 				<label class="width3colmn inputlabel">Fecha Final:</label>
-				<input class="width3colmn inputtext" type="number" min="0" name="monto_descuento" id="monto_descuento" required/>
 				<input class="width3colmn inputtext" type="date" name="fecha_inicio" id="fecha_inicio" required/>
 				<input class="width3colmn inputtext" type="date" name="fecha_final" id="fecha_final" />
+				<br/><br/>
+				<label class="width2colmn inputlabel">Unicamente Asociados:</label>
+				<label class="width2colmn inputlabel">Autonotificar</label>
+				<br/>
+				<label for="unic_asociado" class="width2colmn inputcheckbox" onchange="javascript: checked_asociado();">
+					<input type="checkbox" class="check-type-1" name="unic_asociado" id="unic_asociado" value="Si">
+					<i>No </i>
+				</label>
+				<label for="auto_notificar" class="width2colmn inputcheckbox">
+					<input type="checkbox" class="check-type-1" name="auto_notificar" id="auto_notificar" value="Si">
+					<i>No </i>
+				</label>
 				<br/><br/>
 				<label class="width3colmn inputlabel">Desc. Antiguedad:</label>
 				<label class="width3colmn inputlabel">Desc. Cumplea&ntilde;os:</label>
 				<label class="width3colmn inputlabel">Desc. Familia:</label>
-				<label class="width3colmn inputcheckbox" for="por_antiguedad">
-					<input type="checkbox" name="por_antiguedad" id="por_antiguedad" value="Si">
+				<label class="width3colmn inputcheckbox desc1" for="por_antiguedad">
+					<input type="checkbox" class="check-type-1" name="por_antiguedad" id="por_antiguedad" value="Si">
 					<i>No </i>
 				</label>
-				<label class="width3colmn inputcheckbox" for="por_cumpleanios">
-					<input type="checkbox" name="por_cumpleanios" id="por_cumpleanios" value="Si">
+				<label class="width3colmn inputcheckbox desc2" for="por_cumpleanios">
+					<input type="checkbox" class="check-type-1" name="por_cumpleanios" id="por_cumpleanios" value="Si">
 					<i>No </i>
 				</label>
-				<label class="width3colmn inputcheckbox" for="por_familiar">
-					<input type="checkbox" name="por_familiar" id="por_familiar" value="Si">
+				<label class="width3colmn inputcheckbox desc3" for="por_familiar">
+					<input type="checkbox" class="check-type-1" name="por_familiar" id="por_familiar" value="Si">
 					<i>No </i>
 				</label>
+				<br class="br1_asoc" style="display:none;"/><br class="br2_asoc" style="display:none;"/>
+				<label class="width1colmn inputlabel label_asociados" style="display:none;">Asociados:</label>
+				<br class="br3_asoc" style="display:none;"/>
+				<span class="width1colmn span_asociados" style="display:none;">
+					<select data-placeholder="Seleccione un Asociados" class="chosen-select" tabindex="2" name="id_asociado" id="id_asociado">
+						<option value=""></option>
+						<?php
+						if(!empty($asociados)){
+							foreach($asociados as $asociado){
+								echo '<option value="'.$asociado->id_asociado.'">';
+								echo $asociado->nombre;
+								echo '</option>';
+							}
+						}
+						?>
+					</select>
+				</span>
 				<br/><br/>
 				<label class="width1colmn inputlabel">Productos:</label>
 				<br/>

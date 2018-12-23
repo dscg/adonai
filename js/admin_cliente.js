@@ -30,7 +30,9 @@ function lista_cliente(){
 		],
 		language: lenguaje_es
 	});
-	$('<i class="fas fa-plus-circle new-record" onClick="ver_ventana_cliente(\' Nuevo Cliente\')"> Nuevo Cliente</i>').appendTo('div.dataTables_wrapper');
+	var op_cliente = '<i class="fas fa-plus-circle new-record" onClick="ver_ventana_cliente(\' Nuevo Cliente\')"> Nuevo Cliente</i>';
+	var op_qr = '<i class="fas fa-plus-circle new-record" onClick="generar_qr_cliente()"> Pdf QR clientes</i>';
+	$(op_cliente+op_qr).appendTo('div.dataTables_wrapper');
 }
 function ver_ventana_cliente(titulo_ventana){
 	$('.window-popup').css('display', 'block');
@@ -64,6 +66,8 @@ function ver_info_cliente(id_cliente){
 				cliente_info += '<label class="width2longcolmn infolabel">Telefono:</label><label class="width2longcolmn infolabeltext">'+res['telefono']+'</label>';
 				cliente_info += '<label class="width2longcolmn infolabel">Preferencia:</label><label class="width2longcolmn infolabeltext">'+res['preferencia']+'</label>';
 				cliente_info += '<label class="width2longcolmn infolabel">Observacion:</label><label class="width2longcolmn infolabeltext">'+res['observacion']+'</label>';
+				cliente_info += '<label class="width2longcolmn infolabel">QR:</label><label class="width2longcolmn infolabeltext"> </label>';
+				cliente_info += '<center style="max-width:100%;"><img style="max-width:50%;height:auto;" src="'+base_url+'img/cliente/'+res['id_cliente']+'_qr.png"></img></center>';
 				$(".message-view-content").html(cliente_info);
 			} else {alert('No es posible monstrar mas informacion');}
 		},
@@ -106,8 +110,8 @@ function guardar_cliente(target){
 					cerrar_ventana_cliente();
 					cliente();
 				} else {
-					console.log('Error al subir archivo',res);
-					alert('Error al subir archivo');
+					console.log('Error al guardar',res);
+					alert('Error al guardar');
 				}
 				$("#btn-guardar").html('Guardar');
 				$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
@@ -176,31 +180,29 @@ function editar_cliente(){
 				$("#btn-guardar").prop('disabled', true); // disable button
 			},
 			success: function(res){
-				bb_cliente_editar = false;
 				if(res == "true"){
 					$("#btn-guardar").html('Guardar');
 					$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
 					$("#btn-guardar").prop('disabled', false); // enable button
 					cerrar_ventana_cliente();
+					bb_cliente_editar = false;
 					cliente();
 				} else {
-					console.log('Error al subir archivo',res);
-					alert('Error al subir archivo');
+					console.log('Error al guardar cambios',res);
+					alert('Error al guardar cambios');
 				}
 				$("#btn-guardar").html('Guardar');
 				$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
 				$("#btn-guardar").prop('disabled', false); // enable button
 			},
 			error: function(e){
-				bb_cliente_editar = false;
 				$("#btn-guardar").prop('disabled', false); // enable button
 				console.log('ERROR:',e);
 			}
 		});
 		return false;
 	}catch(e){
-		bb_cliente_editar = false;
-		console.warning('Error de envio:',e);
+		console.log('Error de envio:',e);
 		return false;
 	}
 }
@@ -230,8 +232,36 @@ function eliminar_cliente(){
 		}
 	});
 }
-function msg(c){
-	alert(c);
+
+function generar_qr_cliente(){
+	try{
+		$.ajax({
+			url: base_url+'admin/generarQrClientePdf',
+			type: 'post',
+			data: form_data,
+			contentType: false,
+			processData: false,
+			beforeSend: function() {
+				$("#btn-guardar").html('Subiendo ...');
+				$("#btn-guardar").css('color','green');
+				$("#btn-guardar").prop('disabled', true); // disable button
+			},
+			success: function(res){
+				if(res == "true"){
+				} else {
+					console.log('Error al genrar',res);
+					alert('Error al generar pdf de QR clientes');
+				}
+			},
+			error: function(e){
+				console.log('ERROR:',e);
+			}
+		});
+		return false;
+	}catch(e){
+		console.log('Error de envio:',e);
+		return false;
+	}
 }
 
 

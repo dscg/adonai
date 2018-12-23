@@ -9,27 +9,58 @@ ADMINISTRADOR
 		nombre, precio, foto, precio de reserva, puntos necesarios del cliente
 	productos
 		nombre, codigo, foto, cantidad, precio venta, precio compra
-	reservas
-		numero de incumplimientos para bloqueo, tiempo de notificacion 
-		antes de la reserva, tiempo de aviso del cliente  para cancelar una reserva, 
-		cantidad de avisos dia, titulo de notificacion, mensaje de la notificacion
 	clientes
 		nombre, apellidos, fecha nac, cedula de identidad, celular, observaciones, preferencias.
 		puntos
 			cliente, descripcion, cantidad, estado, fecha asignacion, fecha registro
 		Notificaciones
 			 titulo, mensaje, fecha inicio, fecha final, cantidad de avisos por dia
-		promociones normales
-			titulo, mensaje, autonotificar, fecha inicio, fecha final, monto de descuento, producto,
-			servicio, tipos de clientes por tiempo (antiguedad, cumpleanios, familiar dependientes)
-		promocion combo
+		promocion
 			titulo, mensaje, autonotificar, fecha inicio, fecha final, monto de descuento, producto, 
 			servicio, tipos de clientes por tiempo (antiguedad)
+		reservas
+			cliente, puesto, hora, fecha, estado, servicio
 		Configuraciones
-			meses para asignar antiguedad
-			cantidad de dependientes para descuentos y promociones
+			reserva
+				numero de incumplimientos para bloqueo, tiempo de notificacion 
+				antes de la reserva, tiempo de aviso del cliente  para cancelar una reserva, 
+				cantidad de avisos dia, titulo de notificacion, mensaje de la notificacion
+			promciones
+				meses para asignar antiguedad
+				cantidad de dependientes para descuentos y promociones
 CAJA
 	venta
 		personal que vende, tipo venta (directa, cortesia), producto, descuento, 
 		ingreso extra, observacion
 SYSTEM
+
+NUEVOS
+	configuracion
+		promociones
+			faltan el campo cantidad de notificaciones
+			faltan el campo titulo de la notificacione
+			faltan el campo mensaje de la notificacione
+	productos
+		campo mostrar al cliente en recepcion
+	servicios
+		tiempo del servicio
+	personal
+		menu puestos
+			puestos
+				agregar numero
+		tipo de  personal
+		usuario contrasenia
+	recepcion
+		imagen fondo editable
+		tiempo para volver al inicio si no hay activivdad
+
+FRANZ REQUERIMIENTOS WHATSAPP
+	NUEVO
+		-historial de servicios a un cliente ver en caja
+	PROCESO
+	TERMINADO
+		-aplicar promociones a los asociados unicamente
+		-manejar una cuenta interna para los cliente y agregarle un regalo
+			de productos y/o servicios
+		-preferencias del cliente
+	

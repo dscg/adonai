@@ -1,7 +1,9 @@
-// PROOCION
+
+// PROMOCION
 var id_promocion_eliminar = '0';
 var id_promocion_editar = '0';
 var bb_promocion_editar = false;
+var por_antiguedad = false, por_cumpleanios = false, por_familiar = false;
 function promocion(){
 	$('.title-page').html('Promocion');
 	$.ajax({
@@ -19,6 +21,7 @@ function promocion(){
 	});
 }
 function lista_promocion(){
+	por_antiguedad = false, por_cumpleanios = false, por_familiar = false;
 	var screen_height = $(window).height()-250;
 	var table = $('#tabla').DataTable({
 		bProcessing: true,
@@ -30,7 +33,6 @@ function lista_promocion(){
 		language: lenguaje_es
 	});
 	$('<i class="fas fa-plus-circle new-record" onClick="ver_ventana_promocion(\' Nueva Promocion\')"> Nueva Promocion</i>').appendTo('div.dataTables_wrapper');
-
 	$(".chosen-select").chosen({
 		allow_single_deselect: true, // permitir quitar seleccion
 		disable_search_threshold: 5, //deshabilitar busqueda menos de 10 opciones
@@ -38,7 +40,7 @@ function lista_promocion(){
 		width: '78%', //ancho selector
 		height: '5px' //alto selector
 	});
-
+	/*
 	// Add select/deselect all toggle to optgroups in chosen
 	$(document).on('click', '.group-result', function() {
 		// Get unselected items in this group
@@ -53,6 +55,7 @@ function lista_promocion(){
 			});
 		}
 	});
+	*/
 }
 function ver_ventana_promocion(titulo_ventana){
 	$('.window-popup').css('display', 'block');
@@ -74,7 +77,7 @@ function ver_info_promocion(id_promocion){
 		cache:false,
 		data: {'id_promocion': id_promocion},
 		success: function(res){
-			if(res.promocion.length>0 & res.productos.length>0 & res.servicios.length>0){
+			if(res.promocion.length>0 & res.asociados.length>0 & res.productos.length>0 & res.servicios.length>0){
 				res.promocion = res.promocion[0];
 				promocion_info += '<label class="width2longcolmn infolabel">Titulo:</label><label class="width2longcolmn infolabeltext">'+res.promocion['titulo']+'</label>';
 				promocion_info += '<label class="width2longcolmn infolabel">Mensaje:</label><label class="width2longcolmn infolabeltext">'+res.promocion['mensaje']+'</label>';
@@ -85,6 +88,18 @@ function ver_info_promocion(id_promocion){
 				promocion_info += '<label class="width2longcolmn infolabel">Descuento por Antiguedad:</label><label class="width2longcolmn infolabeltext">'+((res.promocion['por_antiguedad']=='Si') ? 'Si' : 'No')+'</label>';
 				promocion_info += '<label class="width2longcolmn infolabel">Descuento por Cumpleanios:</label><label class="width2longcolmn infolabeltext">'+((res.promocion['por_cumpleanios']=='Si') ? 'Si' : 'No')+'</label>';
 				promocion_info += '<label class="width2longcolmn infolabel">Descuento por Familia:</label><label class="width2longcolmn infolabeltext">'+((res.promocion['por_familiar']=='Si') ? 'Si' : 'No')+'</label>';
+				console.log(res.promocion);
+				if(res.promocion['id_asociado']!=null & res.promocion['id_asociado']>0){
+					console.log(res.promocion['id_asociado']!=null);
+					var container_select = '';
+					for (var i = 0; i < res.asociados.length; i++) {
+						if(res.promocion['id_asociado'] == res.asociados[i]['id_asociado']){
+							promocion_info += '<label class="width2longcolmn infolabel">Asociado:</label><label class="width2longcolmn infolabeltext">'+res.asociados[i]['nombre']+'</label>';
+							break;
+						}
+					}
+				}
+
 				var tabla_productos = '<label class="width2longcolmn infolabel">Productos:</label><label class="width2longcolmn infolabeltext"></label><br/>'+
 				'<center><table id="tabla-producto" class="tabla-producto width1colmn">'+
 				'<caption>Lista productos</caption>'+
@@ -137,6 +152,7 @@ function cerrar_info_promocion(){
 }
 
 function guardar_promocion(target){
+	por_antiguedad = false, por_cumpleanios = false, por_familiar = false;
 	if(bb_promocion_editar){
 		editar_promocion();
 		return false;
@@ -159,8 +175,8 @@ function guardar_promocion(target){
 				serv_ids.push({'id_servicio':element.id_servicio, 'cantidad':$('#srv'+element.id_servicio).val()});
 			}
 		});
-		console.log('$("#titulo").val()',$('#titulo').val());
 		var form_data = new FormData();
+		form_data.append('id_asociado', (($('#unic_asociado').prop('checked')) ? $('#id_asociado').val() : null));
 		form_data.append('titulo', $('#titulo').val());
 		form_data.append('auto_notificar', (($('#auto_notificar').is(':checked')) ? 'Si' : 'No'));
 		form_data.append('mensaje', $('#mensaje').val());
@@ -172,9 +188,6 @@ function guardar_promocion(target){
 		form_data.append('por_familiar', (($('#por_familiar').is(':checked')) ? 'Si' : 'No'));
 		form_data.append('productos', JSON.stringify(prod_ids));
 		form_data.append('servicios', JSON.stringify(serv_ids));
-		console.log('==>prod_ids',prod_ids);
-		console.log('\n==>serv_ids',serv_ids);
-		console.log('\n==>form_data',form_data);
 		$.ajax({
 			url: base_url+'admin/crearPromocion',
 			type: 'post',
@@ -223,9 +236,9 @@ function ver_editar_promocion(id_promocion){
 		cache:false,
 		data: {'id_promocion': id_promocion_editar},
 		success: function(res){
-			if(res.promocion.length>0 & res.productos.length>0 & res.servicios.length>0){
-				console.log('res',res);
+			if(res.promocion.length>0 & res.asociados.length>0 & res.productos.length>0 & res.servicios.length>0){
 				res.promocion = res.promocion[0];
+				$('#unic_asociado').prop('checked', (res.promocion['id_asociado']!=null & res.promocion['id_asociado']>0) ? true : false);
 				$('#titulo').val(res.promocion['titulo']);
 				$('#auto_notificar').prop('checked', ((res.promocion['auto_notificar'] == 'Si') ? true : false));
 				$('#mensaje').val(res.promocion['mensaje']);
@@ -235,6 +248,22 @@ function ver_editar_promocion(id_promocion){
 				$('#por_antiguedad').prop('checked', ((res.promocion['por_antiguedad'] == 'Si') ? true : false));
 				$('#por_cumpleanios').prop('checked', ((res.promocion['por_cumpleanios'] == 'Si') ? true : false));
 				$('#por_familiar').prop('checked', ((res.promocion['por_familiar'] == 'Si') ? true : false));
+				if(res.promocion['id_asociado']!=null & res.promocion['id_asociado']>0){
+					var container_select = '<option value=""></option>';
+					for (var i = 0; i < res.asociados.length; i++) {
+						container_select += '<option value="'+res.asociados[i]['id_asociado']+'"'+((res.asociados[i]['id_asociado']==res.promocion.id_asociado) ? ' selected' : '')+'>';
+						container_select += res.asociados[i]['nombre'];
+						container_select += '</option>';
+					}
+					$('#id_asociado').html(container_select);
+					$("#id_asociado").trigger("chosen:updated");
+					$("#id_asociado").prop('required', true);
+					$('.br1_asoc').css('display', 'block');
+					$('.br2_asoc').css('display', 'block');
+					$('.br3_asoc').css('display', 'block');
+					$('.label_asociados').css('display', 'inline-block');
+					$('.span_asociados').css('display', 'inline');
+				}
 				var tabla_productos = '';
 				res.productos.forEach(function(element) {
 					var valor = '0';
@@ -249,7 +278,6 @@ function ver_editar_promocion(id_promocion){
 					tabla_productos +=  '<td class="tabla-td"><input  type="number" class="tabla-input-number" id="prd'+element.id_producto+'" value="'+valor+'" required/></td>';
 					tabla_productos +=  '</tr>';
 				});
-				console.log('tabla_productos',tabla_productos);
 				$('#tabla-tbody-producto').html(tabla_productos);
 				$('#arg_prod_ids').html(JSON.stringify(res.productos));
 				var tabla_servicios = '';
@@ -292,14 +320,13 @@ function editar_promocion(){
 			}
 		});
 		arg_serv_ids.forEach(function(element) {
-			console.log('element',element);
 			if (Number($('#srv'+element.id_servicio).val()) > 0){
-				console.log('en el if id_servicio',element.id_servicio);
 				serv_ids.push({'id_servicio':element.id_servicio, 'cantidad':$('#srv'+element.id_servicio).val()});
 			}
 		});
 		$('input.checkbox_check').is(':checked')
 		var form_data = new FormData();
+		form_data.append('id_asociado', (($('#unic_asociado').prop('checked')) ? $('#id_asociado').val() : null));
 		form_data.append('titulo', $('#titulo').val());
 		form_data.append('auto_notificar', (($('#auto_notificar').is(':checked')) ? 'Si' : 'No'));
 		form_data.append('mensaje', $('#mensaje').val());
@@ -311,9 +338,6 @@ function editar_promocion(){
 		form_data.append('por_familiar', (($('#por_familiar').is(':checked')) ? 'Si' : 'No'));
 		form_data.append('productos', JSON.stringify(prod_ids));
 		form_data.append('servicios', JSON.stringify(serv_ids));
-		console.log('==>prod_ids',prod_ids);
-		console.log('\n==>serv_ids',serv_ids);
-		console.log('\n==>form_data',form_data);
 		$.ajax({
 			url: base_url+'admin/actualizarPromocion/'+id_promocion_editar,
 			type: 'post',
@@ -330,8 +354,8 @@ function editar_promocion(){
 					$("#btn-guardar").html('Guardar');
 					$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
 					$("#btn-guardar").prop('disabled', false); // enable button
-					bb_promocion_editar = false;
 					cerrar_ventana_promocion();
+					bb_promocion_editar = false;
 					promocion();
 				} else {
 					console.log('Error al subir datos',res);
@@ -342,15 +366,13 @@ function editar_promocion(){
 				$("#btn-guardar").prop('disabled', false); // enable button
 			},
 			error: function(e){
-//				bb_promocion_editar = false;
 				$("#btn-guardar").prop('disabled', false); // enable button
 				console.log('ERROR:',e);
 			}
 		});
 		return false;
 	}catch(e){
-		bb_promocion_editar = false;
-		console.warning('Error de envio:',e);
+		console.log('Error de envio:',e);
 		return false;
 	}
 }
@@ -379,5 +401,44 @@ function eliminar_promocion(){
 			console.log('ERROR:',e);
 		}
 	});
+}
+
+function checked_asociado(){
+	if($('#unic_asociado').prop('checked')){
+		$('.desc1').css('opacity', '0.2');
+		$('.desc2').css('opacity', '0.2');
+		$('.desc3').css('opacity', '0.2');
+		$('#por_antiguedad').prop('disabled', true);
+		$('#por_cumpleanios').prop('disabled', true);
+		$('#por_familiar').prop('disabled', true);
+		por_antiguedad = $('#por_antiguedad').prop('checked');
+		por_cumpleanios = $('#por_cumpleanios').prop('checked');
+		por_familiar = $('#por_familiar').prop('checked');
+		$('#por_antiguedad').prop('checked', false);
+		$('#por_cumpleanios').prop('checked', false);
+		$('#por_familiar').prop('checked', false);
+		$('.br1_asoc').css('display', 'block');
+		$('.br2_asoc').css('display', 'block');
+		$('.br3_asoc').css('display', 'block');
+		$('.label_asociados').css('display', 'inline-block');
+		$('.span_asociados').css('display', 'inline');
+		$("#id_asociado").prop('required', true);
+	} else {
+		$('.desc1').css('opacity', '1');
+		$('.desc2').css('opacity', '1');
+		$('.desc3').css('opacity', '1');
+		$('#por_antiguedad').prop('disabled', false);
+		$('#por_cumpleanios').prop('disabled', false);
+		$('#por_familiar').prop('disabled', false);
+		$('#por_antiguedad').prop('checked', por_antiguedad);
+		$('#por_cumpleanios').prop('checked', por_cumpleanios);
+		$('#por_familiar').prop('checked', por_familiar);
+		$('.br1_asoc').css('display', 'none');
+		$('.br2_asoc').css('display', 'none');
+		$('.br3_asoc').css('display', 'none');
+		$('.label_asociados').css('display', 'none');
+		$('.span_asociados').css('display', 'none');
+		$("#id_asociado").prop('required', false);
+	}
 }
 

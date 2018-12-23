@@ -1,7 +1,7 @@
 <div class="message-view-popup">
 	<div class="message-view">
 		<h1 class="message-view-header"><span class="message-view-title">Vista Informaci&oacute;n</span><i class="fas fa-times message-view-title-icon" onClick="cerrar_info_cliente()"></i></h1>
-		<div class="message-view-content height6row scrollableY"></div>
+		<div class="message-view-content height8row scrollableY"></div>
 		<div class="message-view-buttons">
 			<button class="message-view-button" id="msgv-btn-salir" onClick="cerrar_info_cliente()">Salir</button>
 			<button class="message-view-button" id="msgv-btn-guardar"onClick="cerrar_info_cliente()" autofocus>Cerrar</button>
@@ -22,7 +22,7 @@
 	<form action="<?=base_url()?>admin/crearCliente" onSubmit="return guardar_cliente(this);" method="post" enctype="multipart/form-data" id="form">
 		<div class="window">
 			<h1 class="window-header"><span class="window-title">Nuevo Cliente</span><i class="fas fa-times window-title-icon" onClick="cerrar_ventana_cliente()"></i></h1>
-			<div class="window-content height7row scrollableY">
+			<div class="window-content height8row scrollableY">
 				<label class="width3colmn inputlabel">Nombres:</label>
 				<label class="width3colmn inputlabel">Apellido Paterno:</label>
 				<label class="width3colmn inputlabel">Apellido Materno:</label>
@@ -50,16 +50,21 @@
 					</select>
 				</span>
 				<br/><br/>
-				<label class="width2colmn inputlabel">Celular:</label>
-				<label class="width2colmn inputlabel">Telefono:</label>
-				<input class="width2colmn inputtext" type="text" name="celular" id="celular" required />
-				<input class="width2colmn inputtext" type="text" name="telefono" id="telefono" />
+				<label class="width3colmn inputlabel">Celular:</label>
+				<label class="width3colmn inputlabel">Telefono:</label>
+				<label class="width3colmn inputlabel">Generar nuevo QR:</label>
+				<input class="width3colmn inputtext" type="text" name="celular" id="celular" required />
+				<input class="width3colmn inputtext" type="text" name="telefono" id="telefono" />
+				<label for="generar_qr" class="width3colmn inputcheckbox width120px">
+					<input type="checkbox" class="check-type-1" name="generar_qr" id="generar_qr" value="Si">
+					<i>No</i>
+				</label>
 				<br/><br/>
 				<label class="width1colmn inputlabel">Preferencia:</label>
-				<input class="width1colmn inputtext" type="text" name="preferencia" id="preferencia"/>
+				<textarea class="width1colmn inputtextarea" rows="3" name="preferencia" id="preferencia"></textarea>
 				<br/><br/>
 				<label class="width1colmn inputlabel">Observacion:</label>
-				<input class="width1colmn inputtext" type="text" name="observacion" id="observacion"/>
+				<textarea class="width1colmn inputtextarea" rows="3" name="observacion" id="observacion"></textarea>
 				<br/><br/>
 			</div>
 			<div class="window-buttons">

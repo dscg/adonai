@@ -30,7 +30,7 @@ date_default_timezone_set('America/La_Paz');
 |
 */
 //$config['base_url'] = 'http://adonai.byethost10.com/';
-$config['base_url'] = 'http://localhost/adonai/';
+$config['base_url'] = 'http://192.168.1.6/adonai/';
 
 //define("JS_PATH", $config['base_url']."js/");
 //define("CSS_PATH", $config['base_url']."css/");

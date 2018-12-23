@@ -123,8 +123,8 @@ function guardar_producto(target){
 					cerrar_ventana_producto();
 					producto();
 				} else {
-					console.log('Error al subir archivo',res);
-					alert('Error al subir archivo');
+					console.log('Error al guardar',res);
+					alert('Error al guardar');
 				}
 				$("#btn-guardar").html('Guardar');
 				$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
@@ -202,31 +202,29 @@ function editar_producto(){
 				$("#btn-guardar").prop('disabled', true); // disable button
 			},
 			success: function(res){
-				bb_producto_editar = false;
 				if(res == "true"){
 					$("#btn-guardar").html('Guardar');
 					$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
 					$("#btn-guardar").prop('disabled', false); // enable button
 					cerrar_ventana_producto();
+					bb_producto_editar = false;
 					producto();
 				} else {
-					console.log('Error al subir archivo',res);
-					alert('Error al subir archivo');
+					console.log('Error al guardar cambios',res);
+					alert('Error al guardar cambios');
 				}
 				$("#btn-guardar").html('Guardar');
 				$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
 				$("#btn-guardar").prop('disabled', false); // enable button
 			},
 			error: function(e){
-				bb_producto_editar = false;
 				$("#btn-guardar").prop('disabled', false); // enable button
 				console.log('ERROR:',e);
 			}
 		});
 		return false;
 	}catch(e){
-		bb_producto_editar = false;
-		console.warning('Error de envio:',e);
+		console.log('Error de envio:',e);
 		return false;
 	}
 }

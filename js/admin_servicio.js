@@ -199,12 +199,12 @@ function editar_servicio(){
 				$("#btn-guardar").prop('disabled', true); // disable button
 			},
 			success: function(res){
-				bb_servicio_editar = false;
 				if(res == "true"){
 					$("#btn-guardar").html('Guardar');
 					$('#btn-guardar').css('color', 'rgba(40, 140, 240, 1)');
 					$("#btn-guardar").prop('disabled', false); // enable button
 					cerrar_ventana_servicio();
+					bb_servicio_editar = false;
 					servicio();
 				} else {
 					console.log('Error al guardar cambios',res);
@@ -215,14 +215,12 @@ function editar_servicio(){
 				$("#btn-guardar").prop('disabled', false); // enable button
 			},
 			error: function(e){
-				bb_servicio_editar = false;
 				$("#btn-guardar").prop('disabled', false); // enable button
 				console.log('ERROR:',e);
 			}
 		});
 		return false;
 	}catch(e){
-		bb_servicio_editar = false;
 		console.warning('Error de envio:',e);
 		return false;
 	}

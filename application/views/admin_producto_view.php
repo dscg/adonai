@@ -26,9 +26,9 @@
 				<label class="width3colmn inputlabel">Nombre:</label>
 				<label class="width3colmn inputlabel">Codigo:</label>
 				<label class="width3colmn inputlabel">Cantidad:</label>
-				<input class="width3colmn inputtext" type="text" name="nombre" id="nombre" placeholder="Producto"/>
-				<input class="width3colmn inputtext" type="text" name="codigo" id="codigo" placeholder="###"/>
-				<input class="width3colmn inputtext" type="number" min="0" name="cantidad" id="cantidad" placeholder="#" required />
+				<input class="width3colmn inputtext" type="text" name="nombre" id="nombre" placeholder="Producto" required/>
+				<input class="width3colmn inputtext" type="text" name="codigo" id="codigo" required/>
+				<input class="width3colmn inputtext" type="number" min="0" name="cantidad" id="cantidad" required />
 				<br/><br/>
 				<label class="width2colmn inputlabel">Precio de Compra:</label>
 				<label class="width2colmn inputlabel">Precio de Venta:</label>
