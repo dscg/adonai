@@ -18,7 +18,7 @@ class Caja extends CI_Controller {
 	}
 
 	function validarSession() {
-		if($this->session->userdata('perfil') == FALSE || $this->session->userdata('perfil') != 'admin'){
+		if($this->session->userdata('perfil') == FALSE || $this->session->userdata('perfil') != 'caja'){
 			redirect(base_url().'login');
 		} else {
 			return true;
@@ -38,12 +38,24 @@ class Caja extends CI_Controller {
 		 $this->ciqrcode->generate($params); 
 	 }
 
+	//APERTURA CAJA
+ 	public function aperturaCaja(){
+		if ($this->validarSession()) {
+			$this->load->view('caja_apertura_view');
+		}
+	}
+	//CIERRE CAJA
+ 	public function cierreCaja(){
+		if ($this->validarSession()) {
+			$this->load->view('caja_cierre_view');
+		}
+	}
+
 	//CLIENTE
 	public function listaCliente(){
 		if ($this->validarSession()) {
 			$data['clientes'] = $this->admin_model->listarCliente();
-			$this->load->view('admin_cliente_view', $data);
-			$this->load->view('admin_cliente_menu_view');
+			$this->load->view('caja_lista_clientes_adonai_view', $data);
 		}
 	}
 	public function seleccionarCliente(){
@@ -52,6 +64,11 @@ class Caja extends CI_Controller {
 			$data = $this->admin_model->seleccionarCliente($id_cliente);
 			header('Content-Type: application/json');
 			echo json_encode($data);
+		}
+	}
+	public function registrarCliente(){
+		if ($this->validarSession()) {
+			$this->load->view('caja_registrar_cliente_view');
 		}
 	}
 	public function crearCliente(){

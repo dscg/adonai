@@ -62,11 +62,91 @@ function corregirHora(i) {
 	return i;
 }
 
+function apertura_caja(){
+	$('#ventana-actual').html('[Apertura Caja]');
+	// $('.menuBtn').click();
+	$.ajax({
+		url: base_url+'caja/aperturaCaja',
+		type: 'post',
+		data: {},
+		success: function(res){
+			document.getElementById('content-accion').innerHTML = res;
+		},
+		error: function(e){
+			document.getElementById('content-accion').innerHTML = '<cente style="color:red;">Errror al generar vista de cliente</center>';
+			console.log('ERROR:',e);
+		}
+	});
+}
+function sumar(bnb){
+	var val = $('.val-'+bnb).val();
+	try{
+		$('.val-'+bnb).val(Number(val)+1);
+		var total = $('.val-200').val()*200 + 
+			$('.val-100').val()*100 + 
+			$('.val-50').val()*50 + 
+			$('.val-20').val()*20 + 
+			$('.val-10').val()*10+
+			$('.val-new50').val()*50 + 
+			$('.val-new20').val()*20 + 
+			$('.val-new10').val()*10+
+			$('.val-5').val()*5+
+			$('.val-2').val()*2+
+			$('.val-1').val()*1+
+			$('.val-05').val()*0.5 + 
+			$('.val-02').val()*0.2 + 
+			$('.val-01').val()*0.1;
+		$('.total-bnb').html('Total: Bs '+total);
+	}catch(e){
+		return false;
+	}
+}
+function restar(bnb){
+	var val = $('.val-'+bnb).val();
+	try{
+		if (val>0) {
+			$('.val-'+bnb).val(Number(val)-1);
+			var total = $('.val-200').val()*200 + 
+				$('.val-100').val()*100 + 
+				$('.val-50').val()*50 + 
+				$('.val-20').val()*20 + 
+				$('.val-10').val()*10+
+				$('.val-new50').val()*50 + 
+				$('.val-new20').val()*20 + 
+				$('.val-new10').val()*10+
+				$('.val-5').val()*5+
+				$('.val-2').val()*2+
+				$('.val-1').val()*1+
+				$('.val-05').val()*0.5 + 
+				$('.val-02').val()*0.2 + 
+				$('.val-01').val()*0.1;
+			$('.total-bnb').html('Total: Bs '+total);
+		}
+	}catch(e){
+		return false;
+	}
+}
+function cierre_caja(){
+	$('#ventana-actual').html('[Cierre Caja]');
+	// $('.menuBtn').click();
+	$.ajax({
+		url: base_url+'caja/cierreCaja',
+		type: 'post',
+		data: {},
+		success: function(res){
+			document.getElementById('content-accion').innerHTML = res;
+		},
+		error: function(e){
+			document.getElementById('content-accion').innerHTML = '<cente style="color:red;">Errror al generar vista de cliente</center>';
+			console.log('ERROR:',e);
+		}
+	});
+}
 function registrar_cliente(){
 	$('#ventana-actual').html('[Cliente]');
-	$('#unic_asociado').prop('checked', (res.promocion['id_asociado']!=null & res.promocion['id_asociado']>0) ? true : false);
+	// $('.menuBtn').click();
 	$.ajax({
-		url: base_url+'caja/listaCliente',
+		url: base_url+'caja/registrarCliente',
 		type: 'post',
 		data: {},
 		success: function(res){
@@ -79,9 +159,12 @@ function registrar_cliente(){
 	});
 
 }
+function cerrar_registro_cliente(){
+	$('#ventana-actual').html('');
+	$('#content-accion').html('');
+}
 function guardar_cliente(target){
-	if(bb_cliente_editar){
-		editar_cliente();
+	if($("#btn-guardar").prop('disabled')){
 		return false;
 	}
 	try{
@@ -89,7 +172,7 @@ function guardar_cliente(target){
 		var formElement = document.getElementById("form");
 		var form_data = new FormData(formElement);
 		$.ajax({
-			url: base_url+'admin/crearCliente',
+			url: base_url+'caja/crearCliente',
 			type: 'post',
 			data: form_data,
 			contentType: false,
@@ -160,4 +243,22 @@ function clientes_adonai(){
 function servicios_adonai(){
 
 }
+/*
+caja_registrar_cliente_view
+
+caja_venta_cliente_view
+caja_cobrar_cliente_view
+caja_atencion_cliente_view
+caja_punto_cliente_view
+caja_ticket_cliente_view
+
+caja_lista_clientes_adonai_view
+
+caja_lista_atenciones_adonai_view
+caja_lista_personal_adonai_view
+caja_lista_productos_adonai_view
+caja_lista_gatos_adonai_view
+caja_lista_servicios_adonai_view
+*/
+
 

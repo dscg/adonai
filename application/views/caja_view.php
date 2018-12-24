@@ -45,7 +45,7 @@
 					<div id="hora"></div>
 				</div>
 				<div class="menu-cliente">
-					<input type="checkbox" id="toggle-cliente" checked="true" />
+					<input type="checkbox" id="toggle-cliente" checked="true" disabled="true" />
 					<label id="show-menu-cliente" for="toggle-cliente">
 						<div class="btn">
 							<i class="material-icons md-36 toggleBtn menuBtn">menu</i>
@@ -132,8 +132,8 @@
 				<div class="content-reserva"></div>
 			</div>
 			<dir class="content-action">
-				<a class="button-action" href="<?=base_url()?>login/logout">Apertura Caja</a>
-				<a class="button-action" href="<?=base_url()?>login/logout">Cierre Caja</a>
+				<a class="button-action" href="javascript: apertura_caja();">Apertura Caja</a>
+				<a class="button-action" href="javascript: cierre_caja();">Cierre Caja</a>
 				<a class="button-action" href="<?=base_url()?>login/logout">Cerrar Sessi&oacute;n</a>
 			</dir>
 		</article>
@@ -145,6 +145,7 @@
 	<script src="<?=base_url()?>js/jquery-1.12.4.min.js"></script>
 	<script src="<?=base_url()?>js/caja.js"></script>
 	<script type="text/javascript">
+		var base_url='<?=base_url()?>';
 		$(document).ready(function(){
 			crearReloj('12hr');
 		});

@@ -1,8 +1,10 @@
-<div class="window-popup">
-	<form action="<?=base_url()?>caja/crearCliente" onSubmit="return guardar_cliente(this);" method="post" enctype="multipart/form-data" id="form">
-		<div class="window">
-			<h1 class="window-header"><span class="window-title">Nuevo Cliente</span><i class="fas fa-times window-title-icon" onClick="cerrar_ventana_cliente()"></i></h1>
-			<div class="window-content height8row scrollableY">
+<!-- <div class="window-popup"> -->
+	<form action="<?=base_url()?>caja/crearCliente" onSubmit="return guardar_cliente(this);" method="post" enctype="multipart/form-data" id="form" class="window">
+		<!-- <div > -->
+<!-- 			<h1 class="window-header"><span class="window-title">Nuevo Cliente</span><i class="fas fa-times window-title-icon" onClick="cerrar_ventana_cliente()"></i></h1>
+ -->
+ 			<div class="window-content heightrow scrollableY">
+				<br/>
 				<label class="width3colmn inputlabel">Nombres:</label>
 				<label class="width3colmn inputlabel">Apellido Paterno:</label>
 				<label class="width3colmn inputlabel">Apellido Materno:</label>
@@ -36,7 +38,7 @@
 				<input class="width3colmn inputtext" type="text" name="celular" id="celular" required />
 				<input class="width3colmn inputtext" type="text" name="telefono" id="telefono" />
 				<label for="generar_qr" class="width3colmn inputcheckbox width120px">
-					<input type="checkbox" class="check-type-1" name="generar_qr" id="generar_qr" value="Si">
+					<input type="checkbox" class="check-type-1" name="generar_qr" id="generar_qr" value="Si" checked="">
 					<i>No</i>
 				</label>
 				<br/><br/>
@@ -48,9 +50,9 @@
 				<br/><br/>
 			</div>
 			<div class="window-buttons">
-				<button class="window-button" id="btn-salir" type="reset" onClick="cerrar_ventana_cliente()">Salir</button>
+				<button class="window-button" id="btn-salir" type="reset" onClick="cerrar_registro_cliente()">Salir</button>
 				<button class="window-button" id="btn-guardar" type="submit" autofocus>Guardar</button>
 			</div>
-		</div>
+		<!-- </div> -->
 	</form>
-</div>
+<!-- </div> -->
